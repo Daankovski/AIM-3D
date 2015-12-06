@@ -9,12 +9,17 @@ public class PlayerMovement : MonoBehaviour {
     // Player Related Variables
     private float f_movementSpeed = 8f;
     private bool isGrounded;
+    [SerializeField]
     private float f_playerDamage = 0;
+    private float f_addedVelocity = 6f;
 
     // Joystick Related Variables
     [SerializeField]
     private int i_joystickNumber;
     private string joystickString;
+    private float f_leftStick_X;
+    private float f_leftStick_Y;
+
 
     void Start () {
         playerRigidbody = GetComponent<Rigidbody>();
@@ -25,11 +30,14 @@ public class PlayerMovement : MonoBehaviour {
 	
 	
 	void Update () {
-        PlayerMovementManager();
+        f_leftStick_X = Input.GetAxis("LeftJoystickX_P" + joystickString);
+        f_leftStick_Y = Input.GetAxis("LeftJoystickY_P" + joystickString);
     }
 
     void FixedUpdate() {
-        Debug.Log(f_playerDamage);
+        //Debug.Log(f_playerDamage);
+        Debug.Log(GetComponent<Collider>().material.dynamicFriction);
+        PlayerMovementManager();
     }
 
     // Getters & Setters
@@ -63,11 +71,12 @@ public class PlayerMovement : MonoBehaviour {
 
     void PlayerMovementManager() {
         // Horizontal & Vertical Movement
-        var f_leftStick_X = Input.GetAxis("LeftJoystickX_P" + joystickString) * f_movementSpeed;
-        var f_leftStick_Y = Input.GetAxis("LeftJoystickY_P" + joystickString) * -f_movementSpeed;
-
-        Vector3 movementVector = new Vector3(f_leftStick_X, 0f, f_leftStick_Y);
+        
+        Vector3 movementVector = new Vector3(f_leftStick_X * f_movementSpeed, 0f, f_leftStick_Y * -f_movementSpeed);
         playerRigidbody.MovePosition(transform.localPosition += movementVector * Time.deltaTime);
+        
+        //playerRigidbody.AddRelativeForce(f_leftStick_X * f_movementSpeed, 0f, f_leftStick_Y * f_movementSpeed);
+        
    
         // Rotation
         var f_rightStick_X = Input.GetAxis("RightJoystickX_P" + joystickString);
@@ -79,6 +88,7 @@ public class PlayerMovement : MonoBehaviour {
         }
         var lookAngle = Mathf.Atan2(f_rightStick_X, f_rightStick_Y) * Mathf.Rad2Deg;
         playerRigidbody.rotation = Quaternion.Euler(0, -lookAngle, 0);
+        //playerRigidbody.AddRelativeTorque(0f, lookAngle * f_movementSpeed, 0f);
 
     }
 
@@ -86,6 +96,7 @@ public class PlayerMovement : MonoBehaviour {
         if (col.gameObject.tag == "slippery")
         {
             isGrounded = true;
+            GetComponent<Collider>().material.dynamicFriction = 0;
         }
         else {
             isGrounded = false;
@@ -94,7 +105,7 @@ public class PlayerMovement : MonoBehaviour {
 
     void PlayerHealthSystem() {
         if (f_playerDamage == 100) {
-            Destroy(this.gameObject);
+            Destroy(GameObject.Find("PlayerObj"));
         }
     }
 
