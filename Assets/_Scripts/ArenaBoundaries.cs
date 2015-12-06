@@ -13,12 +13,12 @@ public class ArenaBoundaries : MonoBehaviour {
 	}
 
     void OnTriggerExit(Collider other) {
-        GameObject Player = GameObject.FindGameObjectWithTag("Player");
-        PlayerMovement player = Player.GetComponent<PlayerMovement>();
+        GameObject Player1 = GameObject.FindGameObjectWithTag("Player1");
+        PlayerMovement player = Player1.GetComponent<PlayerMovement>();
        
-        if (other.gameObject.tag == "Player") {
+        if (other.gameObject.tag == "Player1") {
             Debug.Log("Speler is uit het veld");
-            player.playerHealth = 0;
+            player.playerDamage = 100;
         }
     }
 }
