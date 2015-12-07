@@ -5,7 +5,8 @@ public class PickUp : MonoBehaviour {
 
     [SerializeField]
     private int type;
-
+    [SerializeField]
+    private GameObject pickedUpEffect;
 	// Use this for initialization
 	void Start () {
 	    
@@ -17,10 +18,13 @@ public class PickUp : MonoBehaviour {
 	}
     void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.tag == "")
+        if (col.gameObject.GetComponent<PlayerMovement>() != null && col.gameObject.GetComponent<PlayerMovement>().HasItem == false)
         {
             Debug.Log("you picked up a item");
-            Destroy(col.gameObject);
+            pickedUpEffect.transform.position = col.gameObject.transform.position;
+            Instantiate(pickedUpEffect);
+            
+            Destroy(this.gameObject);
             col.gameObject.GetComponent<PlayerMovement>().HasItem = true;
         }
     }

@@ -3,7 +3,8 @@ using System.Collections;
 
 public class PlayerMovement : MonoBehaviour {
 
-    private bool hasItem = true;
+    [SerializeField]
+    private bool hasItem = false;
 
     private Rigidbody playerRigidbody;
     private GameObject player;
