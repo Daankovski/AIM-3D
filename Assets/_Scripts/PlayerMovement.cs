@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour {
 
     // Player Related Variables
     private Vector3 movementVector;
+    private Vector3 rightStickInput;
     private float f_movementSpeed = 8f;
     private bool isGrounded;
     [SerializeField]
@@ -28,6 +29,8 @@ public class PlayerMovement : MonoBehaviour {
     private float f_leftStick_Y;
     private float f_rightStick_X;
     private float f_rightStick_Y;
+    private float f_RightTrigger;
+    private float f_LeftTrigger;
 
 
     void Start () {
@@ -60,17 +63,10 @@ public class PlayerMovement : MonoBehaviour {
         f_rightStick_X = Input.GetAxis("RightJoystickX_P" + joystickString);
         f_rightStick_Y = Input.GetAxis("RightJoystickY_P" + joystickString);
 
-        float f_RightTrigger = Input.GetAxis("RightTrigger_P" + joystickString);
-        float f_LeftTrigger = Input.GetAxis("LeftTrigger_P" + joystickString);
+        f_RightTrigger = Input.GetAxis("RightTrigger_P" + joystickString);
+        f_LeftTrigger = Input.GetAxis("LeftTrigger_P" + joystickString);
 
-        if (f_RightTrigger > 0)
-        {
-            Debug.Log("Rechts");
-        }
-        if (f_LeftTrigger > 0)
-        {
-            Debug.Log("Links");
-        }
+        
 
         //Debug.Log(f_playerDamage);
         //Debug.Log(GetComponent<Collider>().material.dynamicFriction);
@@ -110,39 +106,42 @@ public class PlayerMovement : MonoBehaviour {
     }
     
     void PlayerMovementManager() {
-        
+        /*
         // Horizontal & Vertical Movement
         movementVector.y = 0f;
         movementVector = new Vector3(f_leftStick_X * f_movementSpeed, movementVector.y, f_leftStick_Y * -f_movementSpeed);
         playerRigidbody.MovePosition(transform.localPosition += movementVector * Time.deltaTime);
 
         //playerRigidbody.AddRelativeForce(f_leftStick_X * f_movementSpeed, 0f, f_leftStick_Y * f_movementSpeed);
-        
-        /*
-        // Horizontal & Vertical Movement w/ Velocity
-        movementVector = new Vector3(f_leftStick_X , 0f, -f_leftStick_Y );
-        Vector3 desiredStep = currentTarget - currentPosition;
-        desiredStep.Normalize();
-
-        Vector3 steeringForce = desiredStep * f_movementSpeed;
-
-        currentVelocity += steeringForce / mass;
-
-        currentPosition += currentVelocity * Time.deltaTime;
-        transform.position = currentPosition;
         */
 
+        
+
+        // Horizontal & Vertical Movement w/ Velocity
+        movementVector = new Vector3(f_leftStick_X , 0f, -f_leftStick_Y );
+        Vector3 desiredStep = movementVector - currentPosition;
+        desiredStep.Normalize();
+
+        //Vector3 steeringForce = desiredStep * f_movementSpeed;
+
+        //currentVelocity += steeringForce / mass;
+
+        //currentPosition += currentVelocity * Time.deltaTime;
+        //transform.position = currentPosition;
+        
+
         // Rotation
+        
         // w/ Right Stick to rotatie
-        Vector3 rightStickInput = new Vector3(f_rightStick_X, f_rightStick_Y, 0.0f);
+        rightStickInput = new Vector3(f_rightStick_X, f_rightStick_Y, 0.0f);
         if (rightStickInput.sqrMagnitude < 0.1f) {
             return;
         }
-        var lookAngle = Mathf.Atan2(f_rightStick_X, f_rightStick_Y) * Mathf.Rad2Deg;
+        float lookAngle = Mathf.Atan2(f_rightStick_X, f_rightStick_Y) * Mathf.Rad2Deg;
         playerRigidbody.rotation = Quaternion.Euler(0, -lookAngle, 0);
 
-        // w/ Left Stick to rotate
         /*
+        // w/ Left Stick to rotate
         if (movementVector.sqrMagnitude < 0.1f)
         {
             return;
@@ -151,6 +150,15 @@ public class PlayerMovement : MonoBehaviour {
         playerRigidbody.rotation = Quaternion.Euler(0, -lookAngleL, 0);
         //playerRigidbody.AddRelativeTorque(0f, lookAngle * f_movementSpeed, 0f);
         */
+
+        if (f_RightTrigger > 0)
+        {
+            playerRigidbody.AddForce(lookAngle += Vector3.forward * f_movementSpeed);
+        }
+        if (f_LeftTrigger > 0)
+        {
+            Debug.Log("Links");
+        }
 
     }
 
