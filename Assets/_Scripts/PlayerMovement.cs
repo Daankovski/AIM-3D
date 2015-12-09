@@ -4,13 +4,13 @@ using System.Collections;
 public class PlayerMovement : MonoBehaviour {
 
     [SerializeField]
-    private bool hasItem = false;
+    private int hasItem = 0;
 
     private Rigidbody playerRigidbody;
     private GameObject player;
 
     // Player Related Variables
-    private float f_movementSpeed = 8f;
+    private float f_movementSpeed = 20f;
     private bool isGrounded;
     [SerializeField]
     private float f_playerDamage = 0;
@@ -22,6 +22,15 @@ public class PlayerMovement : MonoBehaviour {
     private string joystickString;
     private float f_leftStick_X;
     private float f_leftStick_Y;
+
+    private float xSpeed = 1f;
+    private float ySpeed = 0f;
+    [SerializeField]
+    private float maxSpeed = 15f;
+    [SerializeField]
+    private float aceleration = 1f;
+    [SerializeField]
+    private float friction = 0.1f;
 
 
     void Start () {
@@ -35,17 +44,17 @@ public class PlayerMovement : MonoBehaviour {
 	void Update () {
         f_leftStick_X = Input.GetAxis("LeftJoystickX_P" + joystickString);
         f_leftStick_Y = Input.GetAxis("LeftJoystickY_P" + joystickString);
-
-        if (Input.GetKeyDown(KeyCode.Space) && hasItem)
+        //Debug.Log(f_leftStick_X);
+        if (Input.GetKeyDown(KeyCode.Space) && hasItem != 0)
         {
             Debug.Log("shoot!");
-            hasItem = false;
+            hasItem = 0;
         }
     }
 
     void FixedUpdate() {
         //Debug.Log(f_playerDamage);
-        Debug.Log(GetComponent<Collider>().material.dynamicFriction);
+        //Debug.Log(GetComponent<Collider>().material.dynamicFriction);
         PlayerMovementManager();
     }
 
@@ -54,7 +63,7 @@ public class PlayerMovement : MonoBehaviour {
         get { return f_playerDamage; }
         set { f_playerDamage = value; }
     }
-    public bool HasItem
+    public int HasItem
     {
         get { return hasItem; }
         set { hasItem = value; }
@@ -84,13 +93,59 @@ public class PlayerMovement : MonoBehaviour {
 
     void PlayerMovementManager() {
         // Horizontal & Vertical Movement
-        
-        Vector3 movementVector = new Vector3(f_leftStick_X * f_movementSpeed, 0f, f_leftStick_Y * -f_movementSpeed);
+
+        //oude code:
+        //Vector3 movementVector = new Vector3(f_leftStick_X * f_movementSpeed, 0f, f_leftStick_Y * -f_movementSpeed);
+
+        if (f_leftStick_X > 0 && xSpeed < maxSpeed)
+        {
+            xSpeed += aceleration;
+        }
+        else if (f_leftStick_X < 0 && xSpeed > -maxSpeed)
+        {
+            xSpeed -= aceleration;
+        }
+        else
+        {
+            if (xSpeed < 0)
+            {
+                xSpeed += friction;
+            }
+            else if (xSpeed > 0)
+            {
+                xSpeed -= friction;
+            }
+        }
+
+        if (f_leftStick_Y > 0 && ySpeed < maxSpeed)
+        {
+            ySpeed += aceleration;
+        }
+        else if (f_leftStick_Y < 0 && ySpeed > -maxSpeed)
+        {
+            ySpeed -= aceleration;
+        }
+        else
+        {
+            if (ySpeed < 0)
+            {
+                ySpeed += friction;
+            }
+            else if (ySpeed > 0)
+            {
+                ySpeed -= friction;
+            }
+        }
+
+        Vector3 movementVector = new Vector3(xSpeed, 0f,-ySpeed);
         playerRigidbody.MovePosition(transform.localPosition += movementVector * Time.deltaTime);
-        
+
+
+
+
         //playerRigidbody.AddRelativeForce(f_leftStick_X * f_movementSpeed, 0f, f_leftStick_Y * f_movementSpeed);
-        
-   
+
+
         // Rotation
         var f_rightStick_X = Input.GetAxis("RightJoystickX_P" + joystickString);
         var f_rightStick_Y = Input.GetAxis("RightJoystickY_P" + joystickString);
