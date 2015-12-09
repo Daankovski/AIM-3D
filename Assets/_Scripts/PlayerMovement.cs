@@ -99,11 +99,11 @@ public class PlayerMovement : MonoBehaviour {
 
         if (f_leftStick_X > 0 && xSpeed < maxSpeed)
         {
-            xSpeed += aceleration;
+            xSpeed += aceleration *f_leftStick_X;
         }
         else if (f_leftStick_X < 0 && xSpeed > -maxSpeed)
         {
-            xSpeed -= aceleration;
+            xSpeed -= aceleration *-f_leftStick_X;
         }
         else
         {
@@ -119,11 +119,11 @@ public class PlayerMovement : MonoBehaviour {
 
         if (f_leftStick_Y > 0 && ySpeed < maxSpeed)
         {
-            ySpeed += aceleration;
+            ySpeed += aceleration*f_leftStick_Y;
         }
         else if (f_leftStick_Y < 0 && ySpeed > -maxSpeed)
         {
-            ySpeed -= aceleration;
+            ySpeed -= aceleration*-f_leftStick_Y;
         }
         else
         {
