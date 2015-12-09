@@ -11,16 +11,11 @@ public class PlayerMovement : MonoBehaviour {
 
     // Player Related Variables
     private Vector3 movementVector;
-    private Vector3 rightStickInput;
-    private float f_movementSpeed = 8f;
+    [SerializeField]
+    private float f_movementSpeed;
     private bool isGrounded;
     [SerializeField]
     private float f_playerDamage = 0;
-
-    private float mass = 20f;
-    private Vector3 currentVelocity;
-    private Vector3 currentPosition;
-    private Vector3 currentTarget;
 
     // Joystick Related Variables & Related Code <--- overzetten naar nieuwe class
     [SerializeField]
@@ -29,8 +24,8 @@ public class PlayerMovement : MonoBehaviour {
     private float f_leftStick_Y;
     private float f_rightStick_X;
     private float f_rightStick_Y;
-    private float f_RightTrigger;
-    private float f_LeftTrigger;
+    private float f_rightTrigger;
+    private float f_leftTrigger;
 
 
     void Start () {
@@ -41,19 +36,26 @@ public class PlayerMovement : MonoBehaviour {
         player = this.gameObject;
 
         ControllerToPlayer();
-
-        currentVelocity = new Vector3(0f, 0f, 0f);
-        currentPosition = playerRigidbody.transform.position;
     }
 	
 	
 	void Update () {
         PlayerMovementManager();
 
-
     }
 
     void FixedUpdate() {
+        ControllerConfig();    
+
+    }
+
+    // Getters & Setters
+    public float playerDamage {
+        get { return f_playerDamage; }
+        set { f_playerDamage = value; }
+    }
+
+    void ControllerConfig() {
         // Onderstaande tekst in void ControllerConfig
         string joystickString = i_joystickNumber.ToString();
 
@@ -63,21 +65,8 @@ public class PlayerMovement : MonoBehaviour {
         f_rightStick_X = Input.GetAxis("RightJoystickX_P" + joystickString);
         f_rightStick_Y = Input.GetAxis("RightJoystickY_P" + joystickString);
 
-        f_RightTrigger = Input.GetAxis("RightTrigger_P" + joystickString);
-        f_LeftTrigger = Input.GetAxis("LeftTrigger_P" + joystickString);
-
-        
-
-        //Debug.Log(f_playerDamage);
-        //Debug.Log(GetComponent<Collider>().material.dynamicFriction);
-        
-
-    }
-
-    // Getters & Setters
-    public float playerDamage {
-        get { return f_playerDamage; }
-        set { f_playerDamage = value; }
+        f_rightTrigger = Input.GetAxis("RightTrigger_P" + joystickString);
+        f_leftTrigger = Input.GetAxis("LeftTrigger_P" + joystickString);
     }
 
     
@@ -106,59 +95,38 @@ public class PlayerMovement : MonoBehaviour {
     }
     
     void PlayerMovementManager() {
-        /*
-        // Horizontal & Vertical Movement
+        
+        // Movement
         movementVector.y = 0f;
-        movementVector = new Vector3(f_leftStick_X * f_movementSpeed, movementVector.y, f_leftStick_Y * -f_movementSpeed);
-        playerRigidbody.MovePosition(transform.localPosition += movementVector * Time.deltaTime);
-
-        //playerRigidbody.AddRelativeForce(f_leftStick_X * f_movementSpeed, 0f, f_leftStick_Y * f_movementSpeed);
-        */
-
-        
-
-        // Horizontal & Vertical Movement w/ Velocity
-        movementVector = new Vector3(f_leftStick_X , 0f, -f_leftStick_Y );
-        Vector3 desiredStep = movementVector - currentPosition;
-        desiredStep.Normalize();
-
-        //Vector3 steeringForce = desiredStep * f_movementSpeed;
-
-        //currentVelocity += steeringForce / mass;
-
-        //currentPosition += currentVelocity * Time.deltaTime;
-        //transform.position = currentPosition;
-        
-
-        // Rotation
-        
-        // w/ Right Stick to rotatie
-        rightStickInput = new Vector3(f_rightStick_X, f_rightStick_Y, 0.0f);
-        if (rightStickInput.sqrMagnitude < 0.1f) {
-            return;
-        }
-        float lookAngle = Mathf.Atan2(f_rightStick_X, f_rightStick_Y) * Mathf.Rad2Deg;
-        playerRigidbody.rotation = Quaternion.Euler(0, -lookAngle, 0);
-
-        /*
-        // w/ Left Stick to rotate
+        movementVector = new Vector3(f_leftStick_X, movementVector.y * jumpPadScript.launchPower, -f_leftStick_Y);
+        playerRigidbody.AddForce(movementVector * f_movementSpeed, ForceMode.VelocityChange);
+       
+        // Rotation     
         if (movementVector.sqrMagnitude < 0.1f)
         {
             return;
         }
         var lookAngleL = Mathf.Atan2(f_leftStick_X, f_leftStick_Y) * Mathf.Rad2Deg;
         playerRigidbody.rotation = Quaternion.Euler(0, -lookAngleL, 0);
-        //playerRigidbody.AddRelativeTorque(0f, lookAngle * f_movementSpeed, 0f);
-        */
+        
 
-        if (f_RightTrigger > 0)
+
+        if (f_rightTrigger > 0)
         {
-            playerRigidbody.AddForce(lookAngle += Vector3.forward * f_movementSpeed);
+            Debug.Log("Rechts");
+            f_movementSpeed = .5f;
         }
-        if (f_LeftTrigger > 0)
+        else if (f_leftTrigger > 0)
         {
             Debug.Log("Links");
+            f_movementSpeed = f_movementSpeed + 1f;
         }
+        else {
+            f_movementSpeed = 0f;
+        }
+
+        
+
 
     }
 
