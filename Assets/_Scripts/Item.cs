@@ -35,10 +35,9 @@ public class Item : MonoBehaviour {
             //makes an particle effect.
             pickedUpEffect.transform.position = col.gameObject.transform.position;
             Instantiate(pickedUpEffect);
-
             //destoys this object.
             Destroy(this.gameObject);
-
+            
             //updates the amount of items.
             pickUpSpawner.GetComponent<ItemSpawner>().CurrentAmountOfItems--;
 
