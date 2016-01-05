@@ -3,12 +3,15 @@ using System.Collections;
 
 public class jumpPadScript : MonoBehaviour {
 
+<<<<<<< HEAD
     /// <summary>
     /// f_ == float
     /// i_ == int
     /// str_string
     /// </summary>
 
+=======
+>>>>>>> Nathan
     [SerializeField]
     private float f_launchPower = 0f;
 

@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class Tags {
+<<<<<<< HEAD
     /// <summary>
     /// f_ == float
     /// i_ == int
@@ -15,5 +16,13 @@ public class Tags {
     public const string str_player3 = "Player3";
     public const string str_player4 = "Player4";
     public const string str_jumpPad = "jumpPad";
+=======
+
+    public const string player1 = "Player1";
+    public const string player2 = "Player2";
+    public const string player3 = "Player3";
+    public const string player4 = "Player4";
+    public const string jumpPad = "jumpPad";
+>>>>>>> Nathan
 
 }
