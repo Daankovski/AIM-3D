@@ -29,6 +29,17 @@ public class PlayerMovement : MonoBehaviour {
     private int lives = 3;
     [SerializeField]
     private Text livesText;
+<<<<<<< HEAD
+=======
+    [SerializeField]
+    private Text damageText;
+
+    private Rigidbody playerRigidbody;
+    private GameObject player;
+
+    private GameObject jumpPad;
+    private jumpPadScript jumpPadScript;
+>>>>>>> Nathan
 
     private bool isGrounded;
     [SerializeField]
@@ -39,9 +50,16 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField]
     private float f_movementSpeed;
     
+<<<<<<< HEAD
     void Start()
     {
         jumpPad = GameObject.Find(Tags.str_jumpPad);
+=======
+
+    void Start () {
+        damageText.text = ""+f_playerDamage;
+        jumpPad = GameObject.Find(Tags.jumpPad);
+>>>>>>> Nathan
         jumpPadScript = jumpPad.GetComponent<jumpPadScript>();
 
         playerRigidbody = GetComponent<Rigidbody>();
@@ -109,6 +127,7 @@ public class PlayerMovement : MonoBehaviour {
         }
         else if (controller.LeftTrigger > 0)
         {
+<<<<<<< HEAD
             Debug.Log("Links");
             f_movementSpeed = f_movementSpeed + 10f;
             var lookAngle = Mathf.Atan2(controller.LeftStick_X, controller.LeftStick_Y) * Mathf.Rad2Deg;
@@ -160,6 +179,70 @@ public class PlayerMovement : MonoBehaviour {
                 }
 
     void PlayerHealthSystem() {
+=======
+            f_movementSpeed = 10f;
+        }
+        else {
+            f_movementSpeed = 0f;
+        }
+
+        
+
+
+    }
+    void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.GetComponent<PlayerMovement>() != null)
+        {
+            Vector3 velocity = GetComponent<Rigidbody>().velocity;
+            float totalVeclocity = Mathf.Round(Mathf.Abs(velocity.x) + Mathf.Abs(velocity.z));
+            Vector3 velocityOther = col.gameObject.GetComponent<Rigidbody>().velocity;
+            float totalVeclocityOther = Mathf.Round(Mathf.Abs(velocityOther.x) + Mathf.Abs(velocityOther.z));
+            
+            if(totalVeclocity >= totalVeclocityOther)
+            {
+                Debug.Log("vel: " + totalVeclocity +": "+ totalVeclocityOther);
+                
+                f_playerDamage -= totalVeclocityOther - totalVeclocity;
+                damageText.text = "" + f_playerDamage;
+                if (f_playerDamage > 100)
+                {
+                    f_playerDamage = 100;
+                }
+            }
+            GetComponent<Rigidbody>().mass = 1f - f_playerDamage/200f;
+        }
+    }
+    void OnCollisionStay(Collision col) {
+        if (col.gameObject.tag == "slippery")
+        {
+            isGrounded = true;
+        }
+        else {
+            isGrounded = false;
+        }
+    }
+
+    void PlayerHealthSystem() {
+        if (f_playerDamage == 100) {
+            //if player dies
+            f_playerDamage = 0;
+            
+            StartCoroutine(Die());
+            
+        }
+    }
+    IEnumerator Die()
+    {
+        lives--;
+        livesText.text = "lives: " + lives;
+        f_playerDamage = 0;
+        GetComponent<Rigidbody>().mass = 1f - f_playerDamage / 200f;
+        damageText.text = "" + f_playerDamage;
+        //creates an explosion if the player dies.
+        explosion.transform.position = transform.position;
+        Instantiate(explosion);
+>>>>>>> Nathan
 
                     if (f_playerDamage == 100)
                     {
