@@ -11,7 +11,9 @@ public class PlayerMovement : MonoBehaviour {
     private int lives = 3;
     [SerializeField]
     private Text livesText;
-    
+    [SerializeField]
+    private Text damageText;
+
     private Rigidbody playerRigidbody;
     private GameObject player;
 
@@ -38,7 +40,7 @@ public class PlayerMovement : MonoBehaviour {
     
 
     void Start () {
-        
+        damageText.text = ""+f_playerDamage;
         jumpPad = GameObject.Find(Tags.jumpPad);
         jumpPadScript = jumpPad.GetComponent<jumpPadScript>();
 
@@ -136,7 +138,7 @@ public class PlayerMovement : MonoBehaviour {
         }
         else if (f_leftTrigger > 0)
         {
-            f_movementSpeed = f_movementSpeed + 1f;
+            f_movementSpeed = 10f;
         }
         else {
             f_movementSpeed = 0f;
@@ -151,15 +153,22 @@ public class PlayerMovement : MonoBehaviour {
         if (col.gameObject.GetComponent<PlayerMovement>() != null)
         {
             Vector3 velocity = GetComponent<Rigidbody>().velocity;
-            float totalVeclocity = Mathf.Abs(velocity.x) + Mathf.Abs(velocity.z);
+            float totalVeclocity = Mathf.Round(Mathf.Abs(velocity.x) + Mathf.Abs(velocity.z));
             Vector3 velocityOther = col.gameObject.GetComponent<Rigidbody>().velocity;
-            float totalVeclocityOther = Mathf.Abs(velocityOther.x) + Mathf.Abs(velocityOther.z);
-            if(totalVeclocity < totalVeclocityOther)
+            float totalVeclocityOther = Mathf.Round(Mathf.Abs(velocityOther.x) + Mathf.Abs(velocityOther.z));
+            
+            if(totalVeclocity >= totalVeclocityOther)
             {
-                f_playerDamage += totalVeclocityOther - totalVeclocity;
-                Debug.Log(f_playerDamage);
+                Debug.Log("vel: " + totalVeclocity +": "+ totalVeclocityOther);
+                
+                f_playerDamage -= totalVeclocityOther - totalVeclocity;
+                damageText.text = "" + f_playerDamage;
+                if (f_playerDamage > 100)
+                {
+                    f_playerDamage = 100;
+                }
             }
-            velocity *= 1f + f_playerDamage/100f;
+            GetComponent<Rigidbody>().mass = 1f - f_playerDamage/200f;
         }
     }
     void OnCollisionStay(Collision col) {
@@ -174,8 +183,9 @@ public class PlayerMovement : MonoBehaviour {
 
     void PlayerHealthSystem() {
         if (f_playerDamage == 100) {
-
+            //if player dies
             f_playerDamage = 0;
+            
             StartCoroutine(Die());
             
         }
@@ -184,7 +194,9 @@ public class PlayerMovement : MonoBehaviour {
     {
         lives--;
         livesText.text = "lives: " + lives;
-
+        f_playerDamage = 0;
+        GetComponent<Rigidbody>().mass = 1f - f_playerDamage / 200f;
+        damageText.text = "" + f_playerDamage;
         //creates an explosion if the player dies.
         explosion.transform.position = transform.position;
         Instantiate(explosion);
