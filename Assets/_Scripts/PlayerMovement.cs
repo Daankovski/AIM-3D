@@ -7,12 +7,18 @@ public class PlayerMovement : MonoBehaviour {
     private int hasItem = 0;
     [SerializeField]
     private GameObject explosion;
+
     [SerializeField]
-    private int lives = 3;
+    private GameObject bullet;
+    private Vector3 shootPos;
+    [SerializeField]
+    private int lives = 10;
     [SerializeField]
     private Text livesText;
     [SerializeField]
     private Text damageText;
+    [SerializeField]
+    private float damage = 0;
 
     private Rigidbody playerRigidbody;
     private GameObject player;
@@ -25,8 +31,7 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField]
     private float f_movementSpeed;
     private bool isGrounded;
-    [SerializeField]
-    private float f_playerDamage = 0;
+    
 
     // Joystick Related Variables & Related Code <--- overzetten naar nieuwe class
     [SerializeField]
@@ -40,7 +45,8 @@ public class PlayerMovement : MonoBehaviour {
     
 
     void Start () {
-        damageText.text = ""+f_playerDamage;
+        
+        damageText.text = damage + "%";
         jumpPad = GameObject.Find(Tags.jumpPad);
         jumpPadScript = jumpPad.GetComponent<jumpPadScript>();
 
@@ -54,9 +60,15 @@ public class PlayerMovement : MonoBehaviour {
 	void Update () {
         PlayerHealthSystem();
         PlayerMovementManager();
+
         if (Input.GetKeyDown(KeyCode.Space) && hasItem != 0)
         {
-            Debug.Log("shoot!");
+
+            //Vector3 shootPos = new Vector3( movementVector.x*1f, 0f, movementVector.z*1f);
+            //Debug.Log("shoot:" + shootPos);
+            //Debug.Log("origin:" + transform.position);
+            shootPos = transform.Find("shootposition").transform.position;
+            Instantiate(bullet, shootPos, transform.Find("shootposition").rotation);
             hasItem = 0;
         }
     }
@@ -68,8 +80,8 @@ public class PlayerMovement : MonoBehaviour {
 
     // Getters & Setters
     public float playerDamage {
-        get { return f_playerDamage; }
-        set { f_playerDamage = value; }
+        get { return damage; }
+        set { damage = value; }
     }
     public int HasItem
     {
@@ -138,7 +150,7 @@ public class PlayerMovement : MonoBehaviour {
         }
         else if (f_leftTrigger > 0)
         {
-            f_movementSpeed = 10f;
+            f_movementSpeed = 2f;
         }
         else {
             f_movementSpeed = 0f;
@@ -160,15 +172,14 @@ public class PlayerMovement : MonoBehaviour {
             if(totalVeclocity >= totalVeclocityOther)
             {
                 Debug.Log("vel: " + totalVeclocity +": "+ totalVeclocityOther);
-                
-                f_playerDamage -= totalVeclocityOther - totalVeclocity;
-                damageText.text = "" + f_playerDamage;
-                if (f_playerDamage > 100)
+                damage -= totalVeclocityOther - totalVeclocity;
+                damageText.text =  damage+"%";
+                if (damage > 100)
                 {
-                    f_playerDamage = 100;
+                    damage = 100;
                 }
             }
-            GetComponent<Rigidbody>().mass = 1f - f_playerDamage/200f;
+            GetComponent<Rigidbody>().mass = 1f - damage/200f;
         }
     }
     void OnCollisionStay(Collision col) {
@@ -182,9 +193,9 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     void PlayerHealthSystem() {
-        if (f_playerDamage == 100) {
+        if (damage == 100) {
             //if player dies
-            f_playerDamage = 0;
+            damage = 0;
             
             StartCoroutine(Die());
             
@@ -194,15 +205,15 @@ public class PlayerMovement : MonoBehaviour {
     {
         lives--;
         livesText.text = "lives: " + lives;
-        f_playerDamage = 0;
-        GetComponent<Rigidbody>().mass = 1f - f_playerDamage / 200f;
-        damageText.text = "" + f_playerDamage;
+        damage = 0;
+        GetComponent<Rigidbody>().mass = 1f - damage / 200f;
+        damageText.text = damage + "%";
         //creates an explosion if the player dies.
         explosion.transform.position = transform.position;
         Instantiate(explosion);
 
         //for the duration the player is not visible while it still exists.
-        transform.position = new Vector3(0f, 100f, 0f);
+        transform.position = new Vector3(0f, 1000f, 0f);
 
         //waits for 2 seconds.
         yield return new WaitForSeconds(2f);
