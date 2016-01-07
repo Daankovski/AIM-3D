@@ -10,36 +10,34 @@ public class PlayerMovement : MonoBehaviour {
     /// str_ == string
     //////////////////
 
-
-    Rigidbody playerRigidbody;
-
-    [HideInInspector]
-    public GameObject player;
-
-    GameObject jumpPad;
-    jumpPadScript jumpPadScript;
-
     Controller controller;
 
     [SerializeField]
     private int hasItem = 0;
     [SerializeField]
     private GameObject explosion;
+
     [SerializeField]
-    private int lives = 3;
+    private GameObject bullet;
+    private Vector3 shootPos;
+    [SerializeField]
+    private int lives = 10;
     [SerializeField]
     private Text livesText;
-<<<<<<< HEAD
-=======
+
     [SerializeField]
     private Text damageText;
+    [SerializeField]
+    private float damage = 0;
 
     private Rigidbody playerRigidbody;
-    private GameObject player;
+
+    [HideInInspector]
+    public GameObject player;
 
     private GameObject jumpPad;
     private jumpPadScript jumpPadScript;
->>>>>>> Nathan
+
 
     private bool isGrounded;
     [SerializeField]
@@ -49,17 +47,12 @@ public class PlayerMovement : MonoBehaviour {
     private Vector3 movementVector;
     [SerializeField]
     private float f_movementSpeed;
-    
-<<<<<<< HEAD
-    void Start()
-    {
-        jumpPad = GameObject.Find(Tags.str_jumpPad);
-=======
-
+ 
     void Start () {
-        damageText.text = ""+f_playerDamage;
-        jumpPad = GameObject.Find(Tags.jumpPad);
->>>>>>> Nathan
+        
+        damageText.text = damage + "%";
+
+        jumpPad = GameObject.Find(Tags.str_jumpPad);
         jumpPadScript = jumpPad.GetComponent<jumpPadScript>();
 
         playerRigidbody = GetComponent<Rigidbody>();
@@ -80,20 +73,21 @@ public class PlayerMovement : MonoBehaviour {
     {
         PlayerHealthSystem();
         PlayerMovementManager();
+
         if (Input.GetKeyDown(KeyCode.Space) && hasItem != 0)
         {
-            Debug.Log("shoot!");
+
+            shootPos = transform.Find("shootposition").transform.position;
+            Instantiate(bullet, shootPos, transform.Find("shootposition").rotation);
             hasItem = 0;
         }
     }
 
     // Getters & Setters
-    public float playerDamage
-    {
-        get { return f_playerDamage; }
-        set { f_playerDamage = value; }
+    public float playerDamage {
+        get { return damage; }
+        set { damage = value; }
     }
-
     public int HasItem
     {
         get { return hasItem; }
@@ -105,8 +99,7 @@ public class PlayerMovement : MonoBehaviour {
     {
         // Movement
         movementVector.y = 0f;
-        movementVector = new Vector3(controller.LeftStick_X, 0, -controller.LeftStick_Y);
-        playerRigidbody.AddForce(movementVector * f_movementSpeed, ForceMode.Impulse);
+        
         movementVector = new Vector3(controller.LeftStick_X, movementVector.y * jumpPadScript.launchPower, -controller.LeftStick_Y);
         playerRigidbody.AddForce(movementVector * f_movementSpeed, ForceMode.VelocityChange);
 
@@ -119,77 +112,24 @@ public class PlayerMovement : MonoBehaviour {
         playerRigidbody.rotation = Quaternion.Euler(0, -lookAngleL, 0);
 
 
-        // Boost
+
+        //Triggers
         if (controller.RightTrigger > 0)
         {
-            Debug.Log("Rechts");
-            f_movementSpeed = 4f;
+            f_movementSpeed = .5f;
         }
-        else if (controller.LeftTrigger > 0)
+        else if (controller.LeftTrigger > 0) //Left Trigger is boost
         {
-<<<<<<< HEAD
-            Debug.Log("Links");
-            f_movementSpeed = f_movementSpeed + 10f;
-            var lookAngle = Mathf.Atan2(controller.LeftStick_X, controller.LeftStick_Y) * Mathf.Rad2Deg;
-            playerRigidbody.rotation = Quaternion.Euler(0, -lookAngleL, 0);
-
-            if (controller.RightTrigger > 0)
-            {
-                f_movementSpeed = .5f;
-            }
-            else if (controller.LeftTrigger > 0)
-            {
-                f_movementSpeed = f_movementSpeed + 1f;
-            }
-            else
-            {
-                f_movementSpeed = 0f;
-            }
-
-            // Dodge
+            f_movementSpeed = f_movementSpeed + .15f;
         }
-    }
-
-    void OnCollisionEnter(Collision col)
+        else
         {
-           if (col.gameObject.GetComponent<PlayerMovement>() != null)
-                    {
-                        Vector3 velocity = GetComponent<Rigidbody>().velocity;
-                        float totalVeclocity = Mathf.Abs(velocity.x) + Mathf.Abs(velocity.z);
-                        Vector3 velocityOther = col.gameObject.GetComponent<Rigidbody>().velocity;
-                        float totalVeclocityOther = Mathf.Abs(velocityOther.x) + Mathf.Abs(velocityOther.z);
-                        if (totalVeclocity < totalVeclocityOther)
-                        {
-                            f_playerDamage += totalVeclocityOther - totalVeclocity;
-                            Debug.Log(f_playerDamage);
-                        }
-                        velocity *= 1f + f_playerDamage / 100f;
-                    }
-                }
-
-    void OnCollisionStay(Collision col) {
-                    if (col.gameObject.tag == "slippery")
-                    {
-                        isGrounded = true;
-                    }
-                    else
-                    {
-                        isGrounded = false;
-                    }
-                }
-
-    void PlayerHealthSystem() {
-=======
-            f_movementSpeed = 10f;
-        }
-        else {
             f_movementSpeed = 0f;
         }
 
-        
+            // Dodge
+        }
 
-
-    }
     void OnCollisionEnter(Collision col)
     {
         if (col.gameObject.GetComponent<PlayerMovement>() != null)
@@ -202,15 +142,14 @@ public class PlayerMovement : MonoBehaviour {
             if(totalVeclocity >= totalVeclocityOther)
             {
                 Debug.Log("vel: " + totalVeclocity +": "+ totalVeclocityOther);
-                
-                f_playerDamage -= totalVeclocityOther - totalVeclocity;
-                damageText.text = "" + f_playerDamage;
-                if (f_playerDamage > 100)
+                damage -= totalVeclocityOther - totalVeclocity;
+                damageText.text =  damage+"%";
+                if (damage > 100)
                 {
-                    f_playerDamage = 100;
+                    damage = 100;
                 }
             }
-            GetComponent<Rigidbody>().mass = 1f - f_playerDamage/200f;
+            GetComponent<Rigidbody>().mass = 1f - damage/200f;
         }
     }
     void OnCollisionStay(Collision col) {
@@ -224,60 +163,43 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     void PlayerHealthSystem() {
-        if (f_playerDamage == 100) {
+        if (damage == 100) {
             //if player dies
-            f_playerDamage = 0;
+            damage = 0;
             
             StartCoroutine(Die());
             
         }
     }
+
     IEnumerator Die()
     {
         lives--;
         livesText.text = "lives: " + lives;
-        f_playerDamage = 0;
-        GetComponent<Rigidbody>().mass = 1f - f_playerDamage / 200f;
-        damageText.text = "" + f_playerDamage;
+        damage = 0;
+        GetComponent<Rigidbody>().mass = 1f - damage / 200f;
+        damageText.text = damage + "%";
         //creates an explosion if the player dies.
         explosion.transform.position = transform.position;
         Instantiate(explosion);
->>>>>>> Nathan
 
-                    if (f_playerDamage == 100)
-                    {
-                        f_playerDamage = 0;
-                        StartCoroutine(Die());
+        //for the duration the player is not visible while it still exists.
+        transform.position = new Vector3(0f, 1000f, 0f);
 
-                    }
-                }
+        //waits for 2 seconds.
+        yield return new WaitForSeconds(2f);
 
-    IEnumerator Die()
+        //checks if the player has still lives left to respawn.
+        if(lives ==0)
         {
-                    lives--;
-                    livesText.text = "lives: " + lives;
-
-                    //creates an explosion if the player dies.
-                    explosion.transform.position = transform.position;
-                    Instantiate(explosion);
-
-                    //for the duration the player is not visible while it still exists.
-                    transform.position = new Vector3(0f, 100f, 0f);
-
-                    //waits for 2 seconds.
-                    yield return new WaitForSeconds(2f);
-
-                    //checks if the player has still lives left to respawn.
-                    if (lives == 0)
-                    {
-                        Destroy(this.gameObject);
-                    }
-                    else
-                    {
-                        GetComponent<Rigidbody>().velocity = Vector3.zero;
-                        transform.position = new Vector3(0f, 5f, 0f);
-                    }
-                }
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
+            transform.position = new Vector3(0f,5f,0f);
+        }
+    }
 
 }
 

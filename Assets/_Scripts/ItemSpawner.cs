@@ -22,7 +22,7 @@ public class ItemSpawner : MonoBehaviour {
         if(currentAmountOfItems < maxAmountOfItems)
         {
             //declares a random position to produce an item and then instantiates it.
-            Vector3 tempPos = new Vector3(Random.Range(-20, 20), 1f, Random.Range(-20, 20));
+            Vector3 tempPos = new Vector3(Random.Range(-10, 10), 1f, Random.Range(-10, 10));
             Instantiate(items[Random.Range(0, items.Length)],tempPos,Quaternion.identity);
             currentAmountOfItems++;
         }
