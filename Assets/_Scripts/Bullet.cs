@@ -6,6 +6,8 @@ public class Bullet : MonoBehaviour {
     private float speed;
     [SerializeField]
     private GameObject explosion;
+    [SerializeField]
+    private int AmountOfBounces= 1;
 	// Use this for initialization
 	void Start () {
         GetComponent<Rigidbody>().velocity = transform.forward * -speed;
@@ -13,9 +15,14 @@ public class Bullet : MonoBehaviour {
 	void Update () {
 	    
 	}
-    void OnCollisionEnter()
+    void OnCollisionEnter(Collision coll)
     {
-        Destroy(this.gameObject);
-        Instantiate(explosion, transform.position, Quaternion.identity);
+        AmountOfBounces--;
+        if(AmountOfBounces <=0 || coll.gameObject.GetComponent<PlayerMovement>() != null)
+        {
+            Destroy(this.gameObject);
+            Instantiate(explosion, transform.position, Quaternion.identity);
+        }
+        
     }
 }

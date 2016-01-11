@@ -3,6 +3,15 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour {
+
+    ///////////////////
+    /// f_ == float
+    /// i_ == int
+    /// str_ == string
+    //////////////////
+
+    Controller controller;
+
     [SerializeField]
     private int hasItem = 0;
     [SerializeField]
@@ -10,72 +19,92 @@ public class PlayerMovement : MonoBehaviour {
 
     [SerializeField]
     private GameObject bullet;
+    [SerializeField]
+    private GameObject miniBullet;
+    [SerializeField]
+    private GameObject lineBullet;
+    private int amountOfMiniBullets = 10;
     private Vector3 shootPos;
+
+    private GameObject shield;
+
     [SerializeField]
     private int lives = 10;
     [SerializeField]
     private Text livesText;
+
     [SerializeField]
     private Text damageText;
     [SerializeField]
     private float damage = 0;
 
     private Rigidbody playerRigidbody;
-    private GameObject player;
+
+    [HideInInspector]
+    public GameObject player;
 
     private GameObject jumpPad;
     private jumpPadScript jumpPadScript;
+
+
+    private bool isGrounded;
+    [SerializeField]
+    private float f_playerDamage = 0;
 
     // Player Related Variables
     private Vector3 movementVector;
     [SerializeField]
     private float f_movementSpeed;
-    private bool isGrounded;
-    
-
-    // Joystick Related Variables & Related Code <--- overzetten naar nieuwe class
-    [SerializeField]
-    private int i_joystickNumber;
-    private float f_leftStick_X;
-    private float f_leftStick_Y;
-    private float f_rightStick_X;
-    private float f_rightStick_Y;
-    private float f_rightTrigger;
-    private float f_leftTrigger;
-    
-
+ 
     void Start () {
-        
         damageText.text = damage + "%";
-        jumpPad = GameObject.Find(Tags.jumpPad);
+
+        jumpPad = GameObject.Find(Tags.str_jumpPad);
         jumpPadScript = jumpPad.GetComponent<jumpPadScript>();
 
         playerRigidbody = GetComponent<Rigidbody>();
         player = this.gameObject;
 
-        ControllerToPlayer();
+        controller = GetComponent<Controller>();
+
+        playerRigidbody.mass = 10;
     }
-	
-	
-	void Update () {
+
+
+    void Update()
+    {
+        Debug.Log(controller.A);
+        PlayerMovementManager();
+    }
+
+    void FixedUpdate()
+    {
         PlayerHealthSystem();
         PlayerMovementManager();
-
-        if (Input.GetKeyDown(KeyCode.Space) && hasItem != 0)
+        if(controller.A != 0)
         {
-
-            //Vector3 shootPos = new Vector3( movementVector.x*1f, 0f, movementVector.z*1f);
-            //Debug.Log("shoot:" + shootPos);
-            //Debug.Log("origin:" + transform.position);
-            shootPos = transform.Find("shootposition").transform.position;
-            Instantiate(bullet, shootPos, transform.Find("shootposition").rotation);
+            if (hasItem == 1)
+            {
+                shootPos = transform.Find("shootposition").transform.position;
+                Instantiate(bullet, shootPos, transform.Find("shootposition").rotation);
+            }
+            else if(hasItem == 3)
+            {
+                StartCoroutine(RapidFire(0));
+            }
+            else if(hasItem == 4)
+            {
+                shootPos = transform.Find("shootposition").transform.position;
+                Instantiate(lineBullet, shootPos, transform.Find("shootposition").rotation);
+            }
             hasItem = 0;
         }
-    }
-
-    void FixedUpdate() {
-        ControllerConfig();    
-
+        
+        if (hasItem == 2 )
+        {
+            hasItem = 0;
+            StartCoroutine(Shield());
+        }
     }
 
     // Getters & Setters
@@ -89,77 +118,42 @@ public class PlayerMovement : MonoBehaviour {
         set { hasItem = value; }
     }
 
-    void ControllerConfig() {
-        // Onderstaande tekst in void ControllerConfig
-        string joystickString = i_joystickNumber.ToString();
-        f_leftStick_X = Input.GetAxis("LeftJoystickX_P" + joystickString);
-        f_leftStick_Y = Input.GetAxis("LeftJoystickY_P" + joystickString);
 
-        f_rightStick_X = Input.GetAxis("RightJoystickX_P" + joystickString);
-        f_rightStick_Y = Input.GetAxis("RightJoystickY_P" + joystickString);
-
-        f_rightTrigger = Input.GetAxis("RightTrigger_P" + joystickString);
-        f_leftTrigger = Input.GetAxis("LeftTrigger_P" + joystickString);
-    }
-
-    
-    void ControllerToPlayer() { // Makes it so that the playerTag assigned to an object equals the joystickNumber of the Controller
-        switch (player.gameObject.tag) {
-            case Tags.player1:
-                i_joystickNumber = 1;
-                break;
-            case Tags.player2:
-                i_joystickNumber = 2;
-                break;
-            case Tags.player3:
-                i_joystickNumber = 3;
-                break;
-            case Tags.player4:
-                i_joystickNumber = 4;
-                break;
-            default:
-                i_joystickNumber = 0;
-                break;
-
-                
-        }
-    
-        
-    }
-    
-    void PlayerMovementManager() {
-        
+    void PlayerMovementManager()
+    {
         // Movement
         movementVector.y = 0f;
-        movementVector = new Vector3(f_leftStick_X, movementVector.y * jumpPadScript.launchPower, -f_leftStick_Y);
-        playerRigidbody.AddForce(movementVector * f_movementSpeed , ForceMode.VelocityChange);
-       
+        
+        movementVector = new Vector3(controller.LeftStick_X, movementVector.y * jumpPadScript.launchPower, -controller.LeftStick_Y);
+        playerRigidbody.AddForce(movementVector * f_movementSpeed, ForceMode.VelocityChange);
+
         // Rotation     
         if (movementVector.sqrMagnitude < 0.1f)
         {
             return;
         }
-        var lookAngleL = Mathf.Atan2(f_leftStick_X, f_leftStick_Y) * Mathf.Rad2Deg;
+        var lookAngleL = Mathf.Atan2(controller.LeftStick_X, controller.LeftStick_Y) * Mathf.Rad2Deg;
         playerRigidbody.rotation = Quaternion.Euler(0, -lookAngleL, 0);
-        
 
 
-        if (f_rightTrigger > 0)
+
+        //Triggers
+        if (controller.RightTrigger > 0)
         {
             f_movementSpeed = .5f;
         }
-        else if (f_leftTrigger > 0)
+        else if (controller.LeftTrigger > 0) //Left Trigger is boost
         {
-            f_movementSpeed = 2f;
+            f_movementSpeed = f_movementSpeed + .15f;
         }
-        else {
+        else
+        {
             f_movementSpeed = 0f;
         }
 
-        
+            // Dodge
+        }
 
-
-    }
     void OnCollisionEnter(Collision col)
     {
         if (col.gameObject.GetComponent<PlayerMovement>() != null)
@@ -196,11 +190,11 @@ public class PlayerMovement : MonoBehaviour {
         if (damage == 100) {
             //if player dies
             damage = 0;
-            
             StartCoroutine(Die());
             
         }
     }
+
     IEnumerator Die()
     {
         lives--;
@@ -229,5 +223,28 @@ public class PlayerMovement : MonoBehaviour {
             transform.position = new Vector3(0f,5f,0f);
         }
     }
+    IEnumerator Shield()
+    {
+        transform.FindChild("shield").gameObject.SetActive(true);
+        GetComponent<Rigidbody>().mass = 2;
+        yield return new WaitForSeconds(5f);
+        transform.FindChild("shield").gameObject.SetActive(false);
+        GetComponent<Rigidbody>().mass = 1;
+    }
+    IEnumerator RapidFire(int i)
+    {
+        shootPos = transform.Find("shootposition").transform.position;
+        Instantiate(miniBullet, shootPos, transform.Find("shootposition").rotation);
+        yield return new WaitForSeconds(0.1f);
+        if(i <amountOfMiniBullets)
+        {
+            i++;
+            StartCoroutine(RapidFire(i));
+            
+        }
+    }
 
 }
+
+        
+    
