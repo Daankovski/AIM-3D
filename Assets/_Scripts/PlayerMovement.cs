@@ -12,42 +12,46 @@ public class PlayerMovement : MonoBehaviour {
 
     Controller controller;
 
-    [SerializeField]
-    private int hasItem = 0;
+    // GameObject Related Variables
     [SerializeField]
     private GameObject explosion;
-
     [SerializeField]
     private GameObject bullet;
+    [SerializeField]
+    private GameObject miniBullet;
+    [SerializeField]
+    private GameObject lineBullet;
+    private int amountOfMiniBullets = 10;
     private Vector3 shootPos;
-    [SerializeField]
-    private int lives = 10;
-    [SerializeField]
-    private Text livesText;
-
-    [SerializeField]
-    private Text damageText;
-    [SerializeField]
-    private float damage = 0;
-
-    private Rigidbody playerRigidbody;
-
-    [HideInInspector]
-    public GameObject player;
-
+    private GameObject shield;
     private GameObject jumpPad;
     private jumpPadScript jumpPadScript;
 
-
-    private bool isGrounded;
+    // UI Related Variables
     [SerializeField]
-    private float f_playerDamage = 0;
+    private Text damageText;
 
     // Player Related Variables
     private Vector3 movementVector;
     [SerializeField]
     private float f_movementSpeed;
- 
+    private bool isGrounded;
+    [SerializeField]
+    private float f_playerDamage = 0;
+    [SerializeField]
+    private int lives = 10;
+    [SerializeField]
+    private Text livesText;
+    [SerializeField]
+    private int hasItem = 0;
+    [SerializeField]
+    private float damage = 0;
+    private Rigidbody playerRigidbody;
+    [HideInInspector]
+    public GameObject player;
+    [SerializeField]
+    private string str_ForceSelector;
+
     void Start () {
         
         damageText.text = damage + "%";
@@ -59,28 +63,23 @@ public class PlayerMovement : MonoBehaviour {
         player = this.gameObject;
 
         controller = GetComponent<Controller>();
-
-        playerRigidbody.mass = 10;
     }
 
 
     void Update()
     {
-        PlayerMovementManager();
+        Debug.Log(controller.A);
+        PlayerControlls();
+        Debug.Log(f_movementSpeed);
     }
 
     void FixedUpdate()
     {
         PlayerHealthSystem();
-        PlayerMovementManager();
-
-        if (Input.GetKeyDown(KeyCode.Space) && hasItem != 0)
-        {
-
-            shootPos = transform.Find("shootposition").transform.position;
-            Instantiate(bullet, shootPos, transform.Find("shootposition").rotation);
-            hasItem = 0;
-        }
+        PlayerControlls();
+        
+        
+        
     }
 
     // Getters & Setters
@@ -93,15 +92,16 @@ public class PlayerMovement : MonoBehaviour {
         get { return hasItem; }
         set { hasItem = value; }
     }
+    public string ForceSelector {
+        get { return str_ForceSelector; }
+        set { str_ForceSelector = value;}
+    }
 
-
-    void PlayerMovementManager()
+    void PlayerControlls()
     {
-        // Movement
-        movementVector.y = 0f;
-        
-        movementVector = new Vector3(controller.LeftStick_X, movementVector.y * jumpPadScript.launchPower, -controller.LeftStick_Y);
-        playerRigidbody.AddForce(movementVector * f_movementSpeed, ForceMode.VelocityChange);
+        // Movement   
+        movementVector = new Vector3(controller.LeftStick_X, 0.0f, -controller.LeftStick_Y);
+        playerRigidbody.AddForce(movementVector * f_movementSpeed, ForceMode.Force);
 
         // Rotation     
         if (movementVector.sqrMagnitude < 0.1f)
@@ -112,23 +112,29 @@ public class PlayerMovement : MonoBehaviour {
         playerRigidbody.rotation = Quaternion.Euler(0, -lookAngleL, 0);
 
 
-
         //Triggers
         if (controller.RightTrigger > 0)
         {
-            f_movementSpeed = .5f;
+            f_movementSpeed = 20f;
         }
         else if (controller.LeftTrigger > 0) //Left Trigger is boost
         {
-            f_movementSpeed = f_movementSpeed + .15f;
+            f_movementSpeed = f_movementSpeed + 5f;
+            
         }
         else
         {
             f_movementSpeed = 0f;
         }
 
-            // Dodge
+        // Dodge
+
+        // Buttons
+        if (controller.A != 0)
+        {
+            Items();
         }
+    }
 
     void OnCollisionEnter(Collision col)
     {
@@ -172,6 +178,29 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
+    void Items() {
+        if (hasItem == 1)
+        {
+            shootPos = transform.Find("shootposition").transform.position;
+            Instantiate(bullet, shootPos, transform.Find("shootposition").rotation);
+        }
+        else if (hasItem == 2)
+        {
+            hasItem = 0;
+            StartCoroutine(Shield());
+        }
+        else if (hasItem == 3)
+        {
+            StartCoroutine(RapidFire(0));
+        }
+        else if (hasItem == 4)
+        {
+            shootPos = transform.Find("shootposition").transform.position;
+            Instantiate(lineBullet, shootPos, transform.Find("shootposition").rotation);
+        }
+        hasItem = 0;
+    }
+
     IEnumerator Die()
     {
         lives--;
@@ -198,6 +227,26 @@ public class PlayerMovement : MonoBehaviour {
         {
             GetComponent<Rigidbody>().velocity = Vector3.zero;
             transform.position = new Vector3(0f,5f,0f);
+        }
+    }
+    IEnumerator Shield()
+    {
+        transform.FindChild("shield").gameObject.SetActive(true);
+        GetComponent<Rigidbody>().mass = 2;
+        yield return new WaitForSeconds(5f);
+        transform.FindChild("shield").gameObject.SetActive(false);
+        GetComponent<Rigidbody>().mass = 1;
+    }
+    IEnumerator RapidFire(int i)
+    {
+        shootPos = transform.Find("shootposition").transform.position;
+        Instantiate(miniBullet, shootPos, transform.Find("shootposition").rotation);
+        yield return new WaitForSeconds(0.1f);
+        if(i <amountOfMiniBullets)
+        {
+            i++;
+            StartCoroutine(RapidFire(i));
+            
         }
     }
 
