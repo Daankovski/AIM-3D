@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour {
     private GameObject shield;
 
     [SerializeField]
-    private int lives = 10;
+    private int lives = 3;
     [SerializeField]
     private Text livesText;
 
@@ -42,6 +42,13 @@ public class PlayerMovement : MonoBehaviour {
 
     [HideInInspector]
     public GameObject player;
+
+    private GameObject spawnPos;
+    [SerializeField]
+    private GameObject spawnEffect;
+
+    [SerializeField]
+    private GameObject bounceEffect;
 
     private GameObject jumpPad;
     private jumpPadScript jumpPadScript;
@@ -57,8 +64,13 @@ public class PlayerMovement : MonoBehaviour {
     private float f_movementSpeed;
  
     void Start () {
-        damageText.text = damage + "%";
-
+        spawnPos = GameObject.Find("SpawnPositions/Spawn_"+gameObject.tag);
+        livesText = GameObject.Find("Canvas/InGameUI/lives_" + gameObject.tag).GetComponent<Text>() as Text;
+        damageText = GameObject.Find("Canvas/InGameUI/damage_" + gameObject.tag).GetComponent<Text>() as Text;
+        transform.position = spawnPos.transform.position;
+        Instantiate(spawnEffect, transform.position, Quaternion.identity);
+        UpdateLifeText();
+        UpdateDamageText();
         jumpPad = GameObject.Find(Tags.str_jumpPad);
         jumpPadScript = jumpPad.GetComponent<jumpPadScript>();
 
@@ -73,8 +85,8 @@ public class PlayerMovement : MonoBehaviour {
 
     void Update()
     {
-        Debug.Log(controller.A);
         PlayerMovementManager();
+        
     }
 
     void FixedUpdate()
@@ -165,15 +177,24 @@ public class PlayerMovement : MonoBehaviour {
             
             if(totalVeclocity >= totalVeclocityOther)
             {
-                Debug.Log("vel: " + totalVeclocity +": "+ totalVeclocityOther);
-                damage -= totalVeclocityOther - totalVeclocity;
-                damageText.text =  damage+"%";
+                damage -= Mathf.RoundToInt((totalVeclocityOther - totalVeclocity)/5);
+                Instantiate(bounceEffect, transform.position, Quaternion.identity);
                 if (damage > 100)
                 {
-                    damage = 100;
+                    damage = 99;
                 }
+                UpdateDamageText();
             }
-            GetComponent<Rigidbody>().mass = 1f - damage/200f;
+            GetComponent<Rigidbody>().mass = 10f - damage/20f;
+        }
+        else if(col.gameObject.GetComponent<Bullet>() != null )
+        {
+            damage += col.gameObject.GetComponent<Bullet>().Speed/10 * col.gameObject.GetComponent<Rigidbody>().mass;
+            if (damage > 100)
+            {
+                damage = 99;
+            }
+            UpdateDamageText();
         }
     }
     void OnCollisionStay(Collision col) {
@@ -188,8 +209,8 @@ public class PlayerMovement : MonoBehaviour {
 
     void PlayerHealthSystem() {
         if (damage == 100) {
+
             //if player dies
-            damage = 0;
             StartCoroutine(Die());
             
         }
@@ -198,10 +219,11 @@ public class PlayerMovement : MonoBehaviour {
     IEnumerator Die()
     {
         lives--;
-        livesText.text = "lives: " + lives;
+        UpdateLifeText();
         damage = 0;
+        UpdateDamageText();
         GetComponent<Rigidbody>().mass = 1f - damage / 200f;
-        damageText.text = damage + "%";
+
         //creates an explosion if the player dies.
         explosion.transform.position = transform.position;
         Instantiate(explosion);
@@ -209,27 +231,52 @@ public class PlayerMovement : MonoBehaviour {
         //for the duration the player is not visible while it still exists.
         transform.position = new Vector3(0f, 1000f, 0f);
 
-        //waits for 2 seconds.
-        yield return new WaitForSeconds(2f);
-
         //checks if the player has still lives left to respawn.
         if(lives ==0)
         {
             Destroy(this.gameObject);
+            GameObject.Find("PlayerSpawner").GetComponent<PlayerSpawner>().DeletePlayerFromList(gameObject.tag);
         }
         else
         {
+            //waits for 2 seconds.
+            yield return new WaitForSeconds(2f);
             GetComponent<Rigidbody>().velocity = Vector3.zero;
-            transform.position = new Vector3(0f,5f,0f);
+            GetComponent<Rigidbody>().mass = 10f;
+            transform.position = spawnPos.transform.position;
+            Instantiate(spawnEffect, transform.position, Quaternion.identity);
         }
+    }
+    void UpdateLifeText()
+    {
+        if(lives > 0)
+        {
+            livesText.text = "li ves: " + lives;
+            if(lives == 1)
+            {
+                livesText.color = Color.yellow;
+            }
+        }
+        else
+        {
+            livesText.color = Color.red;
+            livesText.text = "Defeated!";
+        }
+        
+    }
+    void UpdateDamageText()
+    {
+        damageText.text = damage + "%";
+        damageText.fontSize = Mathf.RoundToInt(30 + damage / 3f);
+        damageText.color = new Color(1f,1f-damage/100f,1f-damage/100f);
     }
     IEnumerator Shield()
     {
         transform.FindChild("shield").gameObject.SetActive(true);
-        GetComponent<Rigidbody>().mass = 2;
+        GetComponent<Rigidbody>().mass *= 3;
         yield return new WaitForSeconds(5f);
         transform.FindChild("shield").gameObject.SetActive(false);
-        GetComponent<Rigidbody>().mass = 1;
+        GetComponent<Rigidbody>().mass /= 3;
     }
     IEnumerator RapidFire(int i)
     {
@@ -243,8 +290,8 @@ public class PlayerMovement : MonoBehaviour {
             
         }
     }
-
 }
+
 
         
     

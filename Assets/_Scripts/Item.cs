@@ -31,7 +31,6 @@ public class Item : MonoBehaviour {
         //if an object with a playerschript (the players) touches this without having an item, the player will get an item.
         if (col.gameObject.GetComponent<PlayerMovement>() != null && col.gameObject.GetComponent<PlayerMovement>().HasItem == 0)
         {
-            Debug.Log("you picked up a item");
             //makes an particle effect.
             pickedUpEffect.transform.position = col.gameObject.transform.position;
             Instantiate(pickedUpEffect);
