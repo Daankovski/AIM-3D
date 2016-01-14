@@ -17,16 +17,12 @@ public class UI : MonoBehaviour
     [SerializeField]
     private Toggle powerUps;
 
-<<<<<<< HEAD
     private float delay = 0f;
     private int selectedObj = 1;
 
     void Awake() {
         DontDestroyOnLoad(this.gameObject);
     }
-=======
-    // Use this for initialization
->>>>>>> bd7683a7a408abfd6548b4355c6d011a94a8d562
     void Start()
     {
         playerSlider = GameObject.Find("PlayerSlider").GetComponent<Slider>();
@@ -41,11 +37,6 @@ public class UI : MonoBehaviour
 
         powerUps = GameObject.Find("PowerUps").GetComponent<Toggle>();
         powerUps.isOn = false;
-<<<<<<< HEAD
-=======
-
-
->>>>>>> bd7683a7a408abfd6548b4355c6d011a94a8d562
     }
 
     // getters & setters
@@ -63,7 +54,6 @@ public class UI : MonoBehaviour
 
     void FixedUpdate() {
         UpdateUI();
-<<<<<<< HEAD
     }
 
     void UpdateUI() {
@@ -72,12 +62,6 @@ public class UI : MonoBehaviour
 
         }
 
-=======
-        DebugLog();
-    }
-
-    void UpdateUI() {
->>>>>>> bd7683a7a408abfd6548b4355c6d011a94a8d562
         switch (i_playerValue) {
             case 2:
                 if (Mathf.Round(Input.GetAxis("MenuHorizontal")) == 1) {
@@ -116,7 +100,6 @@ public class UI : MonoBehaviour
 
         switch (powerUps.isOn) {
             case true:
-<<<<<<< HEAD
                 if (Input.GetButton("Select") && delay == 0f)
                 {
                     powerUps.isOn = false;
@@ -130,21 +113,6 @@ public class UI : MonoBehaviour
                 }
                 break;
         }
-=======
-                if (Input.GetButton("Select"))
-                {
-                    powerUps.isOn = false;
-                }
-                break;
-            case false:
-                if (Input.GetButtonDown("Select")) {
-                    powerUps.isOn = true;
-                }
-                break;
-
-        }
-
->>>>>>> bd7683a7a408abfd6548b4355c6d011a94a8d562
     }
 
     IEnumerator DelayController() {
