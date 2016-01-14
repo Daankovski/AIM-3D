@@ -14,6 +14,9 @@ public class UI : MonoBehaviour
     private int i_livesValue;
     private Text livesValueText;
 
+    [SerializeField]
+    private Toggle powerUps;
+
     // Use this for initialization
     void Start()
     {
@@ -26,6 +29,11 @@ public class UI : MonoBehaviour
         i_livesValue = (int)livesSlider.minValue;
         livesSlider.value = i_livesValue;
         livesValueText = GameObject.Find("LivesValue").GetComponent<Text>();
+
+        powerUps = GameObject.Find("PowerUps").GetComponent<Toggle>();
+        powerUps.isOn = false;
+
+
     }
 
     // getters & setters
@@ -38,11 +46,11 @@ public class UI : MonoBehaviour
     }
 
     void FixedUpdate() {
-        UpdateSlider();
+        UpdateUI();
         DebugLog();
     }
 
-    void UpdateSlider() {
+    void UpdateUI() {
         switch (i_playerValue) {
             case 2:
                 if (Input.GetAxis("MenuHorizontal") == 1) {
@@ -79,6 +87,20 @@ public class UI : MonoBehaviour
         playerValueText.text = "" + playerSlider.value;
         livesValueText.text = "" + livesSlider.value;
 
+        switch (powerUps.isOn) {
+            case true:
+                if (Input.GetButton("Select"))
+                {
+                    powerUps.isOn = false;
+                }
+                break;
+            case false:
+                if (Input.GetButtonDown("Select")) {
+                    powerUps.isOn = true;
+                }
+                break;
+
+        }
 
     }
 
