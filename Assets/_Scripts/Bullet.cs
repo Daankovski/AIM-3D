@@ -6,16 +6,34 @@ public class Bullet : MonoBehaviour {
     private float speed;
     [SerializeField]
     private GameObject explosion;
-	// Use this for initialization
+    [SerializeField]
+    private int AmountOfBounces= 1;
+
 	void Start () {
+        //gives the bullet a velocity forward based on their speed.
         GetComponent<Rigidbody>().velocity = transform.forward * -speed;
     }
-	void Update () {
-	    
-	}
-    void OnCollisionEnter()
+
+    void OnCollisionEnter(Collision coll)
     {
-        Destroy(this.gameObject);
-        Instantiate(explosion, transform.position, Quaternion.identity);
+        //when it hits something
+        AmountOfBounces--;
+
+        //if it doesn't has any more bounces left or comes across a player.
+        if(AmountOfBounces <=0 || coll.gameObject.GetComponent<PlayerMovement>() != null)
+        {
+            //explodes!
+            Destroy(this.gameObject);
+            Instantiate(explosion, transform.position, Quaternion.identity);
+        }
+        
     }
+
+    //getter and setter
+    public float Speed
+    {
+        get { return speed; }
+        set { speed = value; }
+    }
+
 }

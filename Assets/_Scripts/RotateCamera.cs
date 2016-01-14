@@ -3,23 +3,30 @@ using System.Collections;
 
 public class RotateCamera : MonoBehaviour {
 
-    private float speed = 2f;
+
+    /// <summary>
+    /// this is a script for the intro camera.
+    /// </summary>
+
+
+    private float speed = 1f;
     private float rads = 0f;
-	// Use this for initialization
 	void Start () {
-	
+        
+        //sets up the camera in the position where it begins to move
+        transform.position = new Vector3(0f,65f,-4f);
 	}
 	
-	// Update is called once per frame
 	void Update () {
         rads += speed;
-        
-        if (rads <= 360)
+        if (rads <= 40)
         {
-            transform.Rotate(new Vector3(0f, speed, 0f));
-            if (rads > 180)
+            //moves the camera based on the values.
+            transform.Translate(new Vector3(0f, -speed/1.5f, 0f));
+            if (rads > 20)
             {
-                speed -= 0.01f;
+                //slows down.
+                speed -= 0.025f;
             }
         }
         

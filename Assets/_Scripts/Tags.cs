@@ -15,5 +15,6 @@ public class Tags {
     public const string str_player3 = "Player3";
     public const string str_player4 = "Player4";
     public const string str_jumpPad = "jumpPad";
+    public const string str_powerUps = "PowerUps";
 
 }

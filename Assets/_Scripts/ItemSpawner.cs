@@ -5,15 +5,26 @@ using System.Collections.Generic;
 
 public class ItemSpawner : MonoBehaviour {
 
+    UI ui;
+
     private int maxAmountOfItems = 5;
     private int currentAmountOfItems = 0;
     [SerializeField]
     private GameObject[] items;
 
+    void Awake() {
+        ui = GetComponent<UI>();
+    }
+
     void Start () {
         //starts with producing an item.
         StartCoroutine(produceItem());
     }
+
+    void CheckForPowerUps() {
+        
+    }
+
 	IEnumerator produceItem()
     {
         //waits between 1 and 10 seconds.
