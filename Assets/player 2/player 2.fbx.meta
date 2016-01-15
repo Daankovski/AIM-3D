@@ -1,0 +1,270 @@
+fileFormatVersion: 2
+guid: 00a6a1d70b3c2ae439840095187d5477
+timeCreated: 1452861218
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: group
+    100002: group1
+    100004: group10
+    100006: group11
+    100008: group12
+    100010: group13
+    100012: group14
+    100014: group15
+    100016: group16
+    100018: group17
+    100020: group2
+    100022: group3
+    100024: group4
+    100026: group5
+    100028: group6
+    100030: group7
+    100032: group8
+    100034: group9
+    100036: pasted__group10
+    100038: pasted__group11
+    100040: pasted__group14
+    100042: pasted__group16
+    100044: pasted__group2
+    100046: pasted__group2 1
+    100048: pasted__group2 2
+    100050: pasted__group3
+    100052: pasted__group7
+    100054: pasted__group7 1
+    100056: pasted__group9
+    100058: pasted__pasted__group10
+    100060: pasted__pasted__group2
+    100062: pasted__pasted__group9
+    100064: pasted__pasted__pasted__group9
+    100066: pasted__pasted__pasted__pasted__pPipe6
+    100068: pasted__pasted__pasted__pPipe4
+    100070: pasted__pasted__pasted__pPipe6
+    100072: pasted__pasted__pPipe1
+    100074: pasted__pasted__pPipe1 1
+    100076: pasted__pasted__pPipe4
+    100078: pasted__pasted__pPipe4 1
+    100080: pasted__pasted__pPipe4 2
+    100082: pasted__pasted__pSphere3
+    100084: pasted__pPipe1
+    100086: pasted__pPipe1 1
+    100088: pasted__pPipe1 2
+    100090: pasted__pPipe4
+    100092: pasted__pPipe6
+    100094: pasted__pSphere3
+    100096: pasted__pSphere3 1
+    100098: pCylinder1
+    100100: pCylinder2
+    100102: //RootNode
+    100104: pPipe1
+    100106: pPipe3
+    100108: pPipe5
+    100110: pPipe6
+    100112: pPipe7
+    100114: pSphere2
+    100116: pSphere3
+    100118: pSphere4
+    400000: group
+    400002: group1
+    400004: group10
+    400006: group11
+    400008: group12
+    400010: group13
+    400012: group14
+    400014: group15
+    400016: group16
+    400018: group17
+    400020: group2
+    400022: group3
+    400024: group4
+    400026: group5
+    400028: group6
+    400030: group7
+    400032: group8
+    400034: group9
+    400036: pasted__group10
+    400038: pasted__group11
+    400040: pasted__group14
+    400042: pasted__group16
+    400044: pasted__group2
+    400046: pasted__group2 1
+    400048: pasted__group2 2
+    400050: pasted__group3
+    400052: pasted__group7
+    400054: pasted__group7 1
+    400056: pasted__group9
+    400058: pasted__pasted__group10
+    400060: pasted__pasted__group2
+    400062: pasted__pasted__group9
+    400064: pasted__pasted__pasted__group9
+    400066: pasted__pasted__pasted__pasted__pPipe6
+    400068: pasted__pasted__pasted__pPipe4
+    400070: pasted__pasted__pasted__pPipe6
+    400072: pasted__pasted__pPipe1
+    400074: pasted__pasted__pPipe1 1
+    400076: pasted__pasted__pPipe4
+    400078: pasted__pasted__pPipe4 1
+    400080: pasted__pasted__pPipe4 2
+    400082: pasted__pasted__pSphere3
+    400084: pasted__pPipe1
+    400086: pasted__pPipe1 1
+    400088: pasted__pPipe1 2
+    400090: pasted__pPipe4
+    400092: pasted__pPipe6
+    400094: pasted__pSphere3
+    400096: pasted__pSphere3 1
+    400098: pCylinder1
+    400100: pCylinder2
+    400102: //RootNode
+    400104: pPipe1
+    400106: pPipe3
+    400108: pPipe5
+    400110: pPipe6
+    400112: pPipe7
+    400114: pSphere2
+    400116: pSphere3
+    400118: pSphere4
+    2300000: pasted__pasted__pasted__pasted__pPipe6
+    2300002: pasted__pasted__pasted__pPipe4
+    2300004: pasted__pasted__pasted__pPipe6
+    2300006: pasted__pasted__pPipe1
+    2300008: pasted__pasted__pPipe1 1
+    2300010: pasted__pasted__pPipe4
+    2300012: pasted__pasted__pPipe4 1
+    2300014: pasted__pasted__pPipe4 2
+    2300016: pasted__pasted__pSphere3
+    2300018: pasted__pPipe1
+    2300020: pasted__pPipe1 1
+    2300022: pasted__pPipe1 2
+    2300024: pasted__pPipe4
+    2300026: pasted__pPipe6
+    2300028: pasted__pSphere3
+    2300030: pasted__pSphere3 1
+    2300032: pCylinder1
+    2300034: pCylinder2
+    2300036: pPipe1
+    2300038: pPipe3
+    2300040: pPipe5
+    2300042: pPipe6
+    2300044: pPipe7
+    2300046: pSphere2
+    2300048: pSphere3
+    2300050: pSphere4
+    3300000: pasted__pasted__pasted__pasted__pPipe6
+    3300002: pasted__pasted__pasted__pPipe4
+    3300004: pasted__pasted__pasted__pPipe6
+    3300006: pasted__pasted__pPipe1
+    3300008: pasted__pasted__pPipe1 1
+    3300010: pasted__pasted__pPipe4
+    3300012: pasted__pasted__pPipe4 1
+    3300014: pasted__pasted__pPipe4 2
+    3300016: pasted__pasted__pSphere3
+    3300018: pasted__pPipe1
+    3300020: pasted__pPipe1 1
+    3300022: pasted__pPipe1 2
+    3300024: pasted__pPipe4
+    3300026: pasted__pPipe6
+    3300028: pasted__pSphere3
+    3300030: pasted__pSphere3 1
+    3300032: pCylinder1
+    3300034: pCylinder2
+    3300036: pPipe1
+    3300038: pPipe3
+    3300040: pPipe5
+    3300042: pPipe6
+    3300044: pPipe7
+    3300046: pSphere2
+    3300048: pSphere3
+    3300050: pSphere4
+    4300000: pPipe1
+    4300002: pCylinder1
+    4300004: pasted__pPipe1
+    4300006: pSphere2
+    4300008: pPipe3
+    4300010: pasted__pPipe4
+    4300012: pasted__pasted__pPipe4
+    4300014: pasted__pasted__pPipe4
+    4300016: pPipe5
+    4300018: pSphere3
+    4300020: pPipe6
+    4300022: pasted__pSphere3
+    4300024: pasted__pasted__pasted__pPipe6
+    4300026: pCylinder2
+    4300028: pasted__pasted__pPipe4
+    4300030: pasted__pasted__pasted__pPipe4
+    4300032: pasted__pSphere3
+    4300034: pasted__pPipe6
+    4300036: pasted__pasted__pSphere3
+    4300038: pasted__pasted__pasted__pasted__pPipe6
+    4300040: pSphere4
+    4300042: pPipe7
+    4300044: pasted__pPipe1
+    4300046: pasted__pasted__pPipe1
+    4300048: pasted__pPipe1
+    4300050: pasted__pasted__pPipe1
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -10,12 +10,12 @@ public class Item : MonoBehaviour {
     [SerializeField]
     private GameObject pickedUpEffect;
     private GameObject pickUpSpawner;
-
+    
 	void Start () {
         //when an pickup is made, it will produce a little explosion and has a little force upwards.
         GetComponent<Rigidbody>().velocity = new Vector3(0f, 5f, 0f);
 
-        pickUpSpawner = GameObject.Find("pick up spawner");
+        pickUpSpawner = GameObject.Find("pick up spawner(Clone)");
 	}
 	void Update()
     {

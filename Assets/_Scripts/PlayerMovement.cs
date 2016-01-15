@@ -129,6 +129,11 @@ public class PlayerMovement : MonoBehaviour {
         get { return hasItem; }
         set { hasItem = value; }
     }
+    public int Lives
+    {
+        get { return lives; }
+        set { lives = value; }
+    }
 
 
     void PlayerMovementManager()
@@ -189,7 +194,7 @@ public class PlayerMovement : MonoBehaviour {
         }
         else if(col.gameObject.GetComponent<Bullet>() != null )
         {
-            damage += col.gameObject.GetComponent<Bullet>().Speed/10 * col.gameObject.GetComponent<Rigidbody>().mass;
+            damage += (col.gameObject.GetComponent<Bullet>().Speed * col.gameObject.GetComponent<Rigidbody>().mass/100f);
             if (damage > 100)
             {
                 damage = 99;

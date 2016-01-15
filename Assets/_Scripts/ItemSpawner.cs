@@ -13,6 +13,7 @@ public class ItemSpawner : MonoBehaviour {
     void Start () {
         //starts with producing an item.
         StartCoroutine(produceItem());
+
     }
 	IEnumerator produceItem()
     {

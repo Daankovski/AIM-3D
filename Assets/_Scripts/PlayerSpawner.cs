@@ -6,13 +6,27 @@ using UnityEngine.UI;
 public class PlayerSpawner : MonoBehaviour {
     [SerializeField]
     private List<GameObject> players;
-    [SerializeField]
-    private int amountOfPlayers = 4;
     private GameObject endCam;
     private GameObject returnButton;
+    [SerializeField]
+    private GameObject pickUpSpawner;
+    
+
+    //these are the variables that sould be defined by the settings in the lobby.
+    [SerializeField]
+    private int amountOfPlayers = 4;
+    [SerializeField]
+    private bool items = true;
+    [SerializeField]
+    private int lives = 1;
+
 
     void Start () {
-
+        if(items)
+        {
+            Instantiate(pickUpSpawner);
+        }
+        
         endCam = GameObject.Find("EndCamera");
         endCam.SetActive(false);
         returnButton = GameObject.Find("Canvas/ReturnButton");
@@ -21,7 +35,9 @@ public class PlayerSpawner : MonoBehaviour {
         //initiates amountofplayers players that is given from the other scene.
         for (int i = 0; i < amountOfPlayers; i++)
         {
+            players[i].GetComponent<PlayerMovement>().Lives = lives;
             Instantiate(players[i]);
+            
         }
         if (amountOfPlayers < 4)
         {
@@ -30,6 +46,20 @@ public class PlayerSpawner : MonoBehaviour {
             {
                 players.RemoveAt(2);
             }
+        }
+
+        StartCoroutine(Intro());
+    }
+    IEnumerator Intro() {
+        for (int i = 0; i < amountOfPlayers; i++)
+        {
+            GameObject.Find(players[i].tag + "(Clone)").GetComponent<Controller>().enabled = false;
+        }
+        yield return new WaitForSeconds(2f);
+
+        for (int i = 0; i < amountOfPlayers; i++)
+        {
+            GameObject.Find(players[i].tag + "(Clone)").GetComponent<Controller>().enabled = true;
         }
     }
 
