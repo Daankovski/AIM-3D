@@ -6,19 +6,21 @@ public class UI : MonoBehaviour
 {
     [SerializeField]
     private Slider playerSlider;
-    private int i_playerValue;
+    [SerializeField]
+    private float i_playerValue;
     private Text playerValueText;
 
     [SerializeField]
     private Slider livesSlider;
-    private int i_livesValue;
+    [SerializeField]
+    private float i_livesValue;
     private Text livesValueText;
 
     [SerializeField]
-    private Toggle powerUps;
-
-    private float delay = 0f;
-    private int selectedObj = 1;
+    private Slider itemSlider;
+    [SerializeField]
+    private float itemValue;
+    private Text itemValueText;
 
     void Awake() {
         DontDestroyOnLoad(this.gameObject);
@@ -26,98 +28,88 @@ public class UI : MonoBehaviour
     void Start()
     {
         playerSlider = GameObject.Find("PlayerSlider").GetComponent<Slider>();
-        i_playerValue = (int)playerSlider.minValue;
         playerSlider.value = i_playerValue;
         playerValueText = GameObject.Find("PlayerValue").GetComponent<Text>();
 
         livesSlider = GameObject.Find("LivesSlider").GetComponent<Slider>();
-        i_livesValue = (int)livesSlider.minValue;
         livesSlider.value = i_livesValue;
         livesValueText = GameObject.Find("LivesValue").GetComponent<Text>();
 
-        powerUps = GameObject.Find("PowerUps").GetComponent<Toggle>();
-        powerUps.isOn = false;
-    }
+        itemSlider = GameObject.Find("PowerUpsSlider").GetComponent<Slider>();
+        itemSlider.value = itemValue;
+        itemValueText = GameObject.Find("PowerUpsValue").GetComponent<Text>();
 
+    }
+    public void Destroy()
+    {
+        Destroy(this.gameObject);
+    }
     // getters & setters
-    public int LivesValue {
+    [SerializeField]
+    public float LivesValue {
         get { return i_livesValue; }
     }
-
-    public int PlayersValue {
+    [SerializeField]
+    public float PlayersValue
+    {
         get { return i_playerValue; }
     }
 
-    public bool PowerUps {
-        get { return powerUps.isOn; }
+    [SerializeField]
+    public float ItemValue
+    {
+        get { return itemValue; }
     }
 
-    void FixedUpdate() {
+    void Update() {
         UpdateUI();
     }
 
     void UpdateUI() {
-        if(Mathf.Round(Input.GetAxis("MenuVertical")) > 0)
+        if (playerSlider != null)
         {
-
-        }
-
-        switch (i_playerValue) {
-            case 2:
-                if (Mathf.Round(Input.GetAxis("MenuHorizontal")) == 1) {
-                    i_playerValue += 1;
-                }
-            break;
-            case 3:
-                if (Mathf.Round(Input.GetAxis("MenuHorizontal")) == 1)
-                {
-                    i_playerValue += 1;
-                }
-                else if (Mathf.Round(Input.GetAxis("MenuHorizontal")) == -1) {
-                    i_playerValue -= 1;
-                }
-            break;
-        }
-
-        if (i_livesValue >= 5)
-        {
-            if (Mathf.Round(Input.GetAxis("MenuHorizontal")) == 1)
+            i_playerValue = playerSlider.value;
+            playerValueText.text = "" + playerSlider.value;
+            if (i_playerValue == 2)
             {
-                i_livesValue += 1;
+                playerValueText.text = "  " + playerSlider.value + " >";
             }
-            else if (Mathf.Round(Input.GetAxis("MenuHorizontal")) == -1)
+            else if (i_playerValue == 4)
             {
-                i_livesValue -= 1;
+                playerValueText.text = "< " + playerSlider.value + "  ";
             }
-        }
-        else
-        {
-            i_livesValue = 0;
+            else
+            {
+                playerValueText.text = "< " + playerSlider.value + " >";
+            }
+
+            i_livesValue = livesSlider.value;
+            if (i_livesValue == 1)
+            {
+                livesValueText.text = "  " + livesSlider.value + " >";
+            }
+            else if (i_livesValue == 5)
+            {
+                livesValueText.text = "< " + livesSlider.value + "  ";
+            }
+            else
+            {
+                livesValueText.text = "< " + livesSlider.value + " >";
+            }
+
+
+
+            itemValue = itemSlider.value;
+            if (itemValue == 0)
+            {
+                itemValueText.text = "  " + "On" + " >";
+            }
+            else
+            {
+                itemValueText.text = "< " + "Off" + "  ";
+            }
+
         }
 
-        playerValueText.text = "" + playerSlider.value;
-        livesValueText.text = "" + livesSlider.value;
-
-        switch (powerUps.isOn) {
-            case true:
-                if (Input.GetButton("Select") && delay == 0f)
-                {
-                    powerUps.isOn = false;
-                    StartCoroutine(DelayController());
-                }                
-                break;
-            case false:
-                if (Input.GetButton("Select") && delay == 0f) {
-                    powerUps.isOn = true;
-                    StartCoroutine(DelayController()); 
-                }
-                break;
-        }
-    }
-
-    IEnumerator DelayController() {
-        delay = .125f;
-        yield return new WaitForSeconds(delay);
-        delay = 0f;
     }
 }

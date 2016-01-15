@@ -12,7 +12,6 @@ public class PlayerMovement : MonoBehaviour {
 
     Controller controller;
 
-    // GameObject Related Variables
     [SerializeField]
     private int hasItem = 0;
     [SerializeField]
@@ -29,9 +28,8 @@ public class PlayerMovement : MonoBehaviour {
 
     private GameObject shield;
 
-    // UI Related Variables
     [SerializeField]
-    private int lives = 3;
+    private float lives = 3;
     [SerializeField]
     private Text livesText;
 
@@ -87,13 +85,32 @@ public class PlayerMovement : MonoBehaviour {
 
     void Update()
     {
-        PlayerControlls();
+        PlayerMovementManager();
+        
     }
 
     void FixedUpdate()
     {
         PlayerHealthSystem();
-        PlayerControlls();
+        PlayerMovementManager();
+        if(controller.A != 0)
+        {
+            if (hasItem == 1)
+            {
+                shootPos = transform.Find("shootposition").transform.position;
+                Instantiate(bullet, shootPos, transform.Find("shootposition").rotation);
+            }
+            else if(hasItem == 3)
+            {
+                StartCoroutine(RapidFire(0));
+            }
+            else if(hasItem == 4)
+            {
+                shootPos = transform.Find("shootposition").transform.position;
+                Instantiate(lineBullet, shootPos, transform.Find("shootposition").rotation);
+            }
+            hasItem = 0;
+        }
         
         if (hasItem == 2 )
         {
@@ -112,12 +129,20 @@ public class PlayerMovement : MonoBehaviour {
         get { return hasItem; }
         set { hasItem = value; }
     }
-
-    void PlayerControlls()
+    public float Lives
     {
-        // Movement   
-        movementVector = new Vector3(controller.LeftStick_X, 0.0f, -controller.LeftStick_Y);
-        playerRigidbody.AddForce(movementVector * f_movementSpeed, ForceMode.Force);
+        get { return lives; }
+        set { lives = value; }
+    }
+
+
+    void PlayerMovementManager()
+    {
+        // Movement
+        movementVector.y = 0f;
+        
+        movementVector = new Vector3(controller.LeftStick_X, movementVector.y * jumpPadScript.launchPower, -controller.LeftStick_Y);
+        playerRigidbody.AddForce(movementVector * f_movementSpeed, ForceMode.VelocityChange);
 
         // Rotation     
         if (movementVector.sqrMagnitude < 0.1f)
@@ -132,27 +157,20 @@ public class PlayerMovement : MonoBehaviour {
         //Triggers
         if (controller.RightTrigger > 0)
         {
-            f_movementSpeed = 20f;
-        }
-        else if (controller.LeftTrigger > 0) //Left Trigger is boost
-        {
-            f_movementSpeed = f_movementSpeed + 5f;
+
+            f_movementSpeed = .5f;
             
+        }
+        else if (controller.LeftTrigger > 0 ) //Left Trigger is boost
+        {
         }
         else
         {
             f_movementSpeed = 0f;
         }
 
-        // Dodge
-
-        // Buttons
-        if (controller.A != 0)
-        {
-            Items();
+            // Dodge
         }
-    }
-
     void OnCollisionEnter(Collision col)
     {
         if (col.gameObject.GetComponent<PlayerMovement>() != null)
@@ -176,7 +194,7 @@ public class PlayerMovement : MonoBehaviour {
         }
         else if(col.gameObject.GetComponent<Bullet>() != null )
         {
-            damage += col.gameObject.GetComponent<Bullet>().Speed/10 * col.gameObject.GetComponent<Rigidbody>().mass;
+            damage += (col.gameObject.GetComponent<Bullet>().Speed * col.gameObject.GetComponent<Rigidbody>().mass/100f);
             if (damage > 100)
             {
                 damage = 99;
@@ -201,29 +219,6 @@ public class PlayerMovement : MonoBehaviour {
             StartCoroutine(Die());
             
         }
-    }
-
-    void Items() {
-        if (hasItem == 1)
-        {
-            shootPos = transform.Find("shootposition").transform.position;
-            Instantiate(bullet, shootPos, transform.Find("shootposition").rotation);
-        }
-        else if (hasItem == 2)
-        {
-            hasItem = 0;
-            StartCoroutine(Shield());
-        }
-        else if (hasItem == 3)
-        {
-            StartCoroutine(RapidFire(0));
-        }
-        else if (hasItem == 4)
-        {
-            shootPos = transform.Find("shootposition").transform.position;
-            Instantiate(lineBullet, shootPos, transform.Find("shootposition").rotation);
-        }
-        hasItem = 0;
     }
 
     IEnumerator Die()

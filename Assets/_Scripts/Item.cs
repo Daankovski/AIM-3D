@@ -12,10 +12,12 @@ public class Item : MonoBehaviour {
     private GameObject pickUpSpawner;
 
 	void Start () {
+
+
         //when an pickup is made, it will produce a little explosion and has a little force upwards.
         GetComponent<Rigidbody>().velocity = new Vector3(0f, 5f, 0f);
 
-        pickUpSpawner = GameObject.Find("pick up spawner");
+        pickUpSpawner = GameObject.Find("pick up spawner(Clone)");
 	}
 	void Update()
     {
@@ -36,7 +38,7 @@ public class Item : MonoBehaviour {
             Instantiate(pickedUpEffect);
             //destoys this object.
             Destroy(this.gameObject);
-            
+
             //updates the amount of items.
             pickUpSpawner.GetComponent<ItemSpawner>().CurrentAmountOfItems--;
 

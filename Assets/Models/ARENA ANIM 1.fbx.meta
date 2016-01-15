@@ -1,0 +1,490 @@
+fileFormatVersion: 2
+guid: 3697e7ea188a27d4ab1c989b6acb4193
+timeCreated: 1452703407
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Cube_1_group1
+    100004: Cube_1_group2
+    100006: Cube_1_group3
+    100008: Cube_1_group4
+    100010: fan_3_fan_inner_3
+    100012: fan_3_fan_inner_4
+    100014: fan_3_fan_inner_5
+    100016: fan_inner_2_fan_3
+    100018: group1_Cube_2
+    100020: group1_Cylinder
+    100022: group1_pCylinder1
+    100024: group1_pCylinder1_1
+    100026: group1_pCylinder2
+    100028: group1_Plane_2_4
+    100030: group1_Plane_2_5
+    100032: group1_Plane_2_6
+    100034: group1_Tube_2_4
+    100036: group1_Tube_2_5
+    100038: group1_Tube_2_6
+    100040: group1_Tube_4
+    100042: group2_Cube_2
+    100044: group2_Cylinder
+    100046: group2_group5_Plane_2_5
+    100048: group2_group5_Plane_2_6
+    100050: group2_group5_Tube_2_4
+    100052: group2_group5_Tube_2_5
+    100054: group2_group5_Tube_2_6
+    100056: group2_pCylinder1
+    100058: group2_pCylinder2
+    100060: group2_Plane_2_4_group5
+    100062: group2_Tube_4
+    100064: group3_Cube_2
+    100066: group3_Cylinder
+    100068: group3_pCylinder1
+    100070: group3_pCylinder1_1
+    100072: group3_Plane_2_4
+    100074: group3_Plane_2_5
+    100076: group3_Plane_2_6
+    100078: group3_Tube_2_4
+    100080: group3_Tube_2_5
+    100082: group3_Tube_2_6
+    100084: group3_Tube_4
+    100086: group4_Cube_2
+    100088: group4_Cylinder
+    100090: group4_group6_Plane_2_5
+    100092: group4_group6_Plane_2_6
+    100094: group4_group6_Tube_2_4
+    100096: group4_group6_Tube_2_5
+    100098: group4_group6_Tube_2_6
+    100100: group4_pCylinder1
+    100102: group4_pCylinder1_1
+    100104: group4_Plane_2_4_group6
+    100106: group4_Tube_4
+    100108: inner_ring
+    100110: outer_ring
+    400000: //RootNode
+    400002: Cube_1_group1
+    400004: Cube_1_group2
+    400006: Cube_1_group3
+    400008: Cube_1_group4
+    400010: fan_3_fan_inner_3
+    400012: fan_3_fan_inner_4
+    400014: fan_3_fan_inner_5
+    400016: fan_inner_2_fan_3
+    400018: group1_Cube_2
+    400020: group1_Cylinder
+    400022: group1_pCylinder1
+    400024: group1_pCylinder1_1
+    400026: group1_pCylinder2
+    400028: group1_Plane_2_4
+    400030: group1_Plane_2_5
+    400032: group1_Plane_2_6
+    400034: group1_Tube_2_4
+    400036: group1_Tube_2_5
+    400038: group1_Tube_2_6
+    400040: group1_Tube_4
+    400042: group2_Cube_2
+    400044: group2_Cylinder
+    400046: group2_group5_Plane_2_5
+    400048: group2_group5_Plane_2_6
+    400050: group2_group5_Tube_2_4
+    400052: group2_group5_Tube_2_5
+    400054: group2_group5_Tube_2_6
+    400056: group2_pCylinder1
+    400058: group2_pCylinder2
+    400060: group2_Plane_2_4_group5
+    400062: group2_Tube_4
+    400064: group3_Cube_2
+    400066: group3_Cylinder
+    400068: group3_pCylinder1
+    400070: group3_pCylinder1_1
+    400072: group3_Plane_2_4
+    400074: group3_Plane_2_5
+    400076: group3_Plane_2_6
+    400078: group3_Tube_2_4
+    400080: group3_Tube_2_5
+    400082: group3_Tube_2_6
+    400084: group3_Tube_4
+    400086: group4_Cube_2
+    400088: group4_Cylinder
+    400090: group4_group6_Plane_2_5
+    400092: group4_group6_Plane_2_6
+    400094: group4_group6_Tube_2_4
+    400096: group4_group6_Tube_2_5
+    400098: group4_group6_Tube_2_6
+    400100: group4_pCylinder1
+    400102: group4_pCylinder1_1
+    400104: group4_Plane_2_4_group6
+    400106: group4_Tube_4
+    400108: inner_ring
+    400110: outer_ring
+    2300000: Cube_1_group1
+    2300002: Cube_1_group2
+    2300004: Cube_1_group3
+    2300006: Cube_1_group4
+    2300008: fan_3_fan_inner_3
+    2300010: fan_3_fan_inner_4
+    2300012: fan_3_fan_inner_5
+    2300014: fan_inner_2_fan_3
+    2300016: group1_Cube_2
+    2300018: group1_Cylinder
+    2300020: group1_pCylinder1
+    2300022: group1_pCylinder1_1
+    2300024: group1_pCylinder2
+    2300026: group1_Plane_2_4
+    2300028: group1_Plane_2_5
+    2300030: group1_Plane_2_6
+    2300032: group1_Tube_2_4
+    2300034: group1_Tube_2_5
+    2300036: group1_Tube_2_6
+    2300038: group1_Tube_4
+    2300040: group2_Cube_2
+    2300042: group2_Cylinder
+    2300044: group2_group5_Plane_2_5
+    2300046: group2_group5_Plane_2_6
+    2300048: group2_group5_Tube_2_4
+    2300050: group2_group5_Tube_2_5
+    2300052: group2_group5_Tube_2_6
+    2300054: group2_pCylinder1
+    2300056: group2_pCylinder2
+    2300058: group2_Plane_2_4_group5
+    2300060: group2_Tube_4
+    2300062: group3_Cube_2
+    2300064: group3_Cylinder
+    2300066: group3_pCylinder1
+    2300068: group3_pCylinder1_1
+    2300070: group3_Plane_2_4
+    2300072: group3_Plane_2_5
+    2300074: group3_Plane_2_6
+    2300076: group3_Tube_2_4
+    2300078: group3_Tube_2_5
+    2300080: group3_Tube_2_6
+    2300082: group3_Tube_4
+    2300084: group4_Cube_2
+    2300086: group4_Cylinder
+    2300088: group4_group6_Plane_2_5
+    2300090: group4_group6_Plane_2_6
+    2300092: group4_group6_Tube_2_4
+    2300094: group4_group6_Tube_2_5
+    2300096: group4_group6_Tube_2_6
+    2300098: group4_pCylinder1
+    2300100: group4_pCylinder1_1
+    2300102: group4_Plane_2_4_group6
+    2300104: group4_Tube_4
+    2300106: inner_ring
+    2300108: outer_ring
+    3300000: Cube_1_group1
+    3300002: Cube_1_group2
+    3300004: Cube_1_group3
+    3300006: Cube_1_group4
+    3300008: fan_3_fan_inner_3
+    3300010: fan_3_fan_inner_4
+    3300012: fan_3_fan_inner_5
+    3300014: fan_inner_2_fan_3
+    3300016: group1_Cube_2
+    3300018: group1_Cylinder
+    3300020: group1_pCylinder1
+    3300022: group1_pCylinder1_1
+    3300024: group1_pCylinder2
+    3300026: group1_Plane_2_4
+    3300028: group1_Plane_2_5
+    3300030: group1_Plane_2_6
+    3300032: group1_Tube_2_4
+    3300034: group1_Tube_2_5
+    3300036: group1_Tube_2_6
+    3300038: group1_Tube_4
+    3300040: group2_Cube_2
+    3300042: group2_Cylinder
+    3300044: group2_group5_Plane_2_5
+    3300046: group2_group5_Plane_2_6
+    3300048: group2_group5_Tube_2_4
+    3300050: group2_group5_Tube_2_5
+    3300052: group2_group5_Tube_2_6
+    3300054: group2_pCylinder1
+    3300056: group2_pCylinder2
+    3300058: group2_Plane_2_4_group5
+    3300060: group2_Tube_4
+    3300062: group3_Cube_2
+    3300064: group3_Cylinder
+    3300066: group3_pCylinder1
+    3300068: group3_pCylinder1_1
+    3300070: group3_Plane_2_4
+    3300072: group3_Plane_2_5
+    3300074: group3_Plane_2_6
+    3300076: group3_Tube_2_4
+    3300078: group3_Tube_2_5
+    3300080: group3_Tube_2_6
+    3300082: group3_Tube_4
+    3300084: group4_Cube_2
+    3300086: group4_Cylinder
+    3300088: group4_group6_Plane_2_5
+    3300090: group4_group6_Plane_2_6
+    3300092: group4_group6_Tube_2_4
+    3300094: group4_group6_Tube_2_5
+    3300096: group4_group6_Tube_2_6
+    3300098: group4_pCylinder1
+    3300100: group4_pCylinder1_1
+    3300102: group4_Plane_2_4_group6
+    3300104: group4_Tube_4
+    3300106: inner_ring
+    3300108: outer_ring
+    4300000: group3_pCylinder1_1
+    4300002: group4_pCylinder1_1
+    4300004: group1_pCylinder1_1
+    4300006: group4_group6_Tube_2_5
+    4300008: group4_group6_Plane_2_5
+    4300010: group4_group6_Tube_2_6
+    4300012: group4_group6_Plane_2_6
+    4300014: group4_group6_Tube_2_4
+    4300016: group4_Plane_2_4_group6
+    4300018: group2_group5_Tube_2_5
+    4300020: group2_group5_Plane_2_5
+    4300022: group2_group5_Tube_2_6
+    4300024: group2_group5_Plane_2_6
+    4300026: group2_group5_Tube_2_4
+    4300028: group2_Plane_2_4_group5
+    4300030: group4_Cube_2
+    4300032: group4_Tube_4
+    4300034: group4_pCylinder1
+    4300036: group4_Cylinder
+    4300038: Cube_1_group4
+    4300040: group3_Tube_2_5
+    4300042: group3_Plane_2_5
+    4300044: group3_Tube_2_6
+    4300046: group3_Plane_2_6
+    4300048: group3_Tube_2_4
+    4300050: group3_Plane_2_4
+    4300052: group3_Cube_2
+    4300054: group3_Tube_4
+    4300056: group3_pCylinder1
+    4300058: group3_Cylinder
+    4300060: Cube_1_group3
+    4300062: group2_pCylinder2
+    4300064: group2_Cube_2
+    4300066: group2_Tube_4
+    4300068: group2_pCylinder1
+    4300070: group2_Cylinder
+    4300072: Cube_1_group2
+    4300074: group1_Tube_2_5
+    4300076: group1_Plane_2_5
+    4300078: group1_Tube_2_6
+    4300080: group1_Plane_2_6
+    4300082: group1_Tube_2_4
+    4300084: group1_Plane_2_4
+    4300086: group1_pCylinder2
+    4300088: group1_Cube_2
+    4300090: group1_Tube_4
+    4300092: group1_pCylinder1
+    4300094: group1_Cylinder
+    4300096: Cube_1_group1
+    4300098: fan_3_fan_inner_5
+    4300100: fan_3_fan_inner_4
+    4300102: fan_3_fan_inner_3
+    4300104: fan_inner_2_fan_3
+    4300106: inner_ring
+    4300108: outer_ring
+    7400000: C4D Animation Take
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: C4D Animation Take
+      takeName: C4D Animation Take
+      firstFrame: 0
+      lastFrame: 300
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Cube_1_group1
+        weight: 1
+      - path: Cube_1_group2
+        weight: 1
+      - path: Cube_1_group3
+        weight: 1
+      - path: Cube_1_group4
+        weight: 1
+      - path: fan_3_fan_inner_3
+        weight: 1
+      - path: fan_3_fan_inner_4
+        weight: 1
+      - path: fan_3_fan_inner_5
+        weight: 1
+      - path: fan_inner_2_fan_3
+        weight: 1
+      - path: group1_Cube_2
+        weight: 1
+      - path: group1_Cylinder
+        weight: 1
+      - path: group1_pCylinder1
+        weight: 1
+      - path: group1_pCylinder1_1
+        weight: 1
+      - path: group1_pCylinder2
+        weight: 1
+      - path: group1_Plane_2_4
+        weight: 1
+      - path: group1_Plane_2_5
+        weight: 1
+      - path: group1_Plane_2_6
+        weight: 1
+      - path: group1_Tube_2_4
+        weight: 1
+      - path: group1_Tube_2_5
+        weight: 1
+      - path: group1_Tube_2_6
+        weight: 1
+      - path: group1_Tube_4
+        weight: 1
+      - path: group2_Cube_2
+        weight: 1
+      - path: group2_Cylinder
+        weight: 1
+      - path: group2_group5_Plane_2_5
+        weight: 1
+      - path: group2_group5_Plane_2_6
+        weight: 1
+      - path: group2_group5_Tube_2_4
+        weight: 1
+      - path: group2_group5_Tube_2_5
+        weight: 1
+      - path: group2_group5_Tube_2_6
+        weight: 1
+      - path: group2_pCylinder1
+        weight: 1
+      - path: group2_pCylinder2
+        weight: 1
+      - path: group2_Plane_2_4_group5
+        weight: 1
+      - path: group2_Tube_4
+        weight: 1
+      - path: group3_Cube_2
+        weight: 1
+      - path: group3_Cylinder
+        weight: 1
+      - path: group3_pCylinder1
+        weight: 1
+      - path: group3_pCylinder1_1
+        weight: 1
+      - path: group3_Plane_2_4
+        weight: 1
+      - path: group3_Plane_2_5
+        weight: 1
+      - path: group3_Plane_2_6
+        weight: 1
+      - path: group3_Tube_2_4
+        weight: 1
+      - path: group3_Tube_2_5
+        weight: 1
+      - path: group3_Tube_2_6
+        weight: 1
+      - path: group3_Tube_4
+        weight: 1
+      - path: group4_Cube_2
+        weight: 1
+      - path: group4_Cylinder
+        weight: 1
+      - path: group4_group6_Plane_2_5
+        weight: 1
+      - path: group4_group6_Plane_2_6
+        weight: 1
+      - path: group4_group6_Tube_2_4
+        weight: 1
+      - path: group4_group6_Tube_2_5
+        weight: 1
+      - path: group4_group6_Tube_2_6
+        weight: 1
+      - path: group4_pCylinder1
+        weight: 1
+      - path: group4_pCylinder1_1
+        weight: 1
+      - path: group4_Plane_2_4_group6
+        weight: 1
+      - path: group4_Tube_4
+        weight: 1
+      - path: inner_ring
+        weight: 1
+      - path: outer_ring
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
